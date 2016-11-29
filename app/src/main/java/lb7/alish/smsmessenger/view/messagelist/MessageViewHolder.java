@@ -27,7 +27,7 @@ public class MessageViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void bind(MessageInfo messageInfo) {
-        mContactName.setText(messageInfo.getContact());
+        mContactName.setText(messageInfo.getDisplayName());
         mMessageText.setText(messageInfo.getMessageText());
         mDateText.setText(TimeUtils.getTime(Long.parseLong(messageInfo.getDate())));
     }

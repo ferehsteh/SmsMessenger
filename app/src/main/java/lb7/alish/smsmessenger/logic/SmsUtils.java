@@ -37,7 +37,7 @@ public class SmsUtils {
                 } else {
                     directionType = DirectionType.OUTPUT;
                 }
-                mMessages.add(new MessageInfo(messageText, contact, date, directionType));
+                mMessages.add(new MessageInfo(messageText, contact, date, ContactUtils.contactName(contact), directionType));
                 // use msgData
             } while (cursor.moveToNext());
             cursor.close();
@@ -66,7 +66,7 @@ public class SmsUtils {
                 } else {
                     directionType = DirectionType.OUTPUT;
                 }
-                mMessages.add(new MessageInfo(messageText, contact, date, directionType));
+                mMessages.add(new MessageInfo(messageText, contact, date, ContactUtils.contactName(contact), directionType));
                 // use msgData
             } while (cursor.moveToNext());
             cursor.close();

@@ -10,14 +10,16 @@ public class MessageInfo {
 
     private String mContact;
     private String mMessageText;
+    private String mDisplayName;
     private DirectionType mDirectionType;
     private String mDate;
 
-    public MessageInfo(String message, String contact, String date, DirectionType directionType) {
+    public MessageInfo(String message, String contact, String date, String displayName, DirectionType directionType) {
         mMessageText = message;
         mContact = contact;
         mDirectionType = directionType;
         mDate = date;
+        mDisplayName = displayName;
     }
 
     public String getContact() {
@@ -34,5 +36,9 @@ public class MessageInfo {
 
     public String getDate() {
         return mDate;
+    }
+
+    public String getDisplayName() {
+        return mDisplayName;
     }
 }
