@@ -17,13 +17,11 @@ import lb7.alish.smsmessenger.view.messagelist.MessageInfo;
 public class SmsUtils {
     public static ArrayList<MessageInfo> readAllSms() {
         Cursor cursor = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
-            cursor = MyApplication.getContext().getContentResolver().query(Telephony.Sms.CONTENT_URI
-                    , null
-                    , "address IS NOT NULL) GROUP BY (thread_id"
-                    , null
-                    , null);
-        }
+        cursor = MyApplication.getContext().getContentResolver().query(Uri.parse("content://sms")
+                , null
+                , "address IS NOT NULL) GROUP BY (thread_id"
+                , null
+                , null);
         ArrayList<MessageInfo> mMessages = new ArrayList<>();
         if (cursor != null && cursor.moveToFirst()) { // must check the result to prevent exception
             do {
@@ -38,7 +36,7 @@ public class SmsUtils {
                 } else {
                     directionType = DirectionType.OUTPUT;
                 }
-                mMessages.add(new MessageInfo(messageText, contact, date
+                mMessages.add(new MessageInfo(messageText.replaceAll("\\n", " "), contact, date
                         , /*ContactUtils.contactName(contact)*/"", directionType));
                 // use msgData
             } while (cursor.moveToNext());

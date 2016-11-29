@@ -33,15 +33,15 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:hint="Type here ..."
-                android:textColor="@android:color/black"
-                android:textColorHint="#555555"/>
+                android:textColor="@android:color/white"
+                android:textColorHint="@android:color/white"/>
 
             <Button
                 android:id="@+id/send_button"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:layout_gravity="center"
-                android:background="@drawable/ic_send_white_16dp"
+                android:background="@drawable/ic_send_white_24dp"
                 android:shadowColor="@android:color/black"
                 android:shadowRadius="5"/>
         </LinearLayout>

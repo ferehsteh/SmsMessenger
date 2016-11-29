@@ -9,13 +9,12 @@ import java.util.ArrayList;
 
 import lb7.alish.smsmessenger.R;
 import lb7.alish.smsmessenger.view.messagelist.MessageInfo;
-import lb7.alish.smsmessenger.view.messagelist.MessageViewHolder;
 
 /**
  * Created by AliSh on 11/29/2016.
  */
 
-public class ConversationAdapter extends RecyclerView.Adapter<MessageViewHolder> {
+public class ConversationAdapter extends RecyclerView.Adapter<ConversationViewHolder> {
     private ArrayList<MessageInfo> mMessageInfos;
 
     public ConversationAdapter(ArrayList<MessageInfo> messageInfos) {
@@ -23,13 +22,13 @@ public class ConversationAdapter extends RecyclerView.Adapter<MessageViewHolder>
     }
 
     @Override
-    public MessageViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ConversationViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.conversation_item, parent, false);
-        return new MessageViewHolder(v);
+        return new ConversationViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(final MessageViewHolder holder, int position) {
+    public void onBindViewHolder(final ConversationViewHolder holder, int position) {
         holder.bind(mMessageInfos.get(position));
     }
 
