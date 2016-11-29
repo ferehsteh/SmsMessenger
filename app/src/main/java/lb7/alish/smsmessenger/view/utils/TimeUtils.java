@@ -28,13 +28,11 @@ public class TimeUtils {
                 amOrPmString = "pm";
             }
             return hour + ":" + minute + " " + amOrPmString;
-//        } else if (currentDayOfYear < dayOfYear + 6) {
-//            int dayOfYear = timeCal.get(Calendar.DAY_OF_WEEK);
-//            return
         } else {
             int dayOfMonth = timeCal.get(Calendar.DAY_OF_MONTH);
             int monthOfYear = timeCal.get(Calendar.MONTH);
-            return monthOfYear + "/" + dayOfMonth;
+            int year = timeCal.get(Calendar.YEAR);
+            return year + "/" + monthOfYear + "/" + dayOfMonth;
         }
 
     }

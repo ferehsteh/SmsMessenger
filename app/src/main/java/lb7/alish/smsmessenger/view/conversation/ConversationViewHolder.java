@@ -16,14 +16,12 @@ import lb7.alish.smsmessenger.view.utils.TimeUtils;
 
 public class ConversationViewHolder extends RecyclerView.ViewHolder {
 
-    public TextView mContactName;
     public TextView mMessageText;
     public TextView mDateText;
     public View itemView;
 
     public ConversationViewHolder(View view) {
         super(view);
-        mContactName = (TextView) view.findViewById(R.id.contactTextView);
         mMessageText = (TextView) view.findViewById(R.id.messageTextView);
         mDateText = (TextView) view.findViewById(R.id.dateTextView);
         itemView = view;
