@@ -2,6 +2,7 @@ package lb7.alish.smsmessenger.logic;
 
 import android.database.Cursor;
 import android.net.Uri;
+import android.provider.Telephony;
 import android.telephony.SmsManager;
 
 import java.util.ArrayList;
@@ -15,11 +16,14 @@ import lb7.alish.smsmessenger.view.messagelist.MessageInfo;
 
 public class SmsUtils {
     public static ArrayList<MessageInfo> readAllSms() {
-        Cursor cursor = MyApplication.getContext().getContentResolver().query(Uri.parse("content://sms/")
-                , null
-                , "address IS NOT NULL) GROUP BY (address"
-                , null
-                , null);
+        Cursor cursor = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+            cursor = MyApplication.getContext().getContentResolver().query(Telephony.Sms.CONTENT_URI
+                    , null
+                    , "address IS NOT NULL) GROUP BY (thread_id"
+                    , null
+                    , null);
+        }
         ArrayList<MessageInfo> mMessages = new ArrayList<>();
         if (cursor != null && cursor.moveToFirst()) { // must check the result to prevent exception
             do {
@@ -28,7 +32,8 @@ public class SmsUtils {
                 String date = cursor.getString(cursor.getColumnIndexOrThrow("date"));
 
                 DirectionType directionType;
-                if (cursor.getString(cursor.getColumnIndexOrThrow("type")).contains("1")) {
+                if (cursor.getString(cursor.getColumnIndexOrThrow("type"))
+                        .contains(Telephony.Sms.MESSAGE_TYPE_INBOX + "")) {
                     directionType = DirectionType.INPUT;
                 } else {
                     directionType = DirectionType.OUTPUT;
