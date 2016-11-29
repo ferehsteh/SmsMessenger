@@ -1,11 +1,14 @@
 package lb7.alish.smsmessenger.view.messagelist;
 
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
+import lb7.alish.smsmessenger.MyApplication;
 import lb7.alish.smsmessenger.R;
 import lb7.alish.smsmessenger.logic.ContactUtils;
+import lb7.alish.smsmessenger.view.conversation.ConversationActivity;
 import lb7.alish.smsmessenger.view.utils.TimeUtils;
 
 /**
@@ -14,10 +17,10 @@ import lb7.alish.smsmessenger.view.utils.TimeUtils;
 
 public class MessageViewHolder extends RecyclerView.ViewHolder {
 
-    public TextView mContactName;
-    public TextView mMessageText;
-    public TextView mDateText;
-    public View itemView;
+    private TextView mContactName;
+    private TextView mMessageText;
+    private TextView mDateText;
+    private View itemView;
 
     public MessageViewHolder(View view) {
         super(view);
@@ -27,11 +30,21 @@ public class MessageViewHolder extends RecyclerView.ViewHolder {
         itemView = view;
     }
 
-    public void bind(MessageInfo messageInfo) {
-        if (messageInfo.getContact()!=null && !messageInfo.getContact().isEmpty()) {
-            mContactName.setText(ContactUtils.contactName(messageInfo.getContact()));
+    public void bind(final MessageInfo messageInfo) {
+        final String contactNumber = messageInfo.getContact();
+        if (contactNumber != null && !contactNumber.isEmpty()) {
+            mContactName.setText(ContactUtils.contactName(contactNumber));
         }
         mMessageText.setText(messageInfo.getMessageText());
         mDateText.setText(TimeUtils.getTime(Long.parseLong(messageInfo.getDate())));
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MyApplication.getContext(), ConversationActivity.class);
+                intent.putExtra(ConversationActivity.PARTY_KEY, contactNumber);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                MyApplication.getContext().startActivity(intent);
+            }
+        });
     }
 }

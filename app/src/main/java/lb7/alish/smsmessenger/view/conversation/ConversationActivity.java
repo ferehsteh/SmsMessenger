@@ -3,7 +3,7 @@ package lb7.alish.smsmessenger.view.conversation;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,7 +35,7 @@ public class ConversationActivity extends AppCompatActivity {
         }
 
         final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 1));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, true));
         recyclerView.setAdapter(new ConversationAdapter(SmsUtils.readSmsByContact(mParty)));
         Button sendButton = (Button) findViewById(R.id.send_button);
 

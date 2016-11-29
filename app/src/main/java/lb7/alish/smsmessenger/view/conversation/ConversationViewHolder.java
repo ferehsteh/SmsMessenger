@@ -16,9 +16,9 @@ import lb7.alish.smsmessenger.view.utils.TimeUtils;
 
 public class ConversationViewHolder extends RecyclerView.ViewHolder {
 
-    public TextView mMessageText;
-    public TextView mDateText;
-    public View itemView;
+    private TextView mMessageText;
+    private TextView mDateText;
+    private View itemView;
 
     public ConversationViewHolder(View view) {
         super(view);
@@ -37,6 +37,6 @@ public class ConversationViewHolder extends RecyclerView.ViewHolder {
                 break;
         }
         mMessageText.setText(messageInfo.getMessageText());
-        mDateText.setText(TimeUtils.getTime(Long.parseLong(messageInfo.getDate())));
+        mDateText.setText(TimeUtils.getTimeForConversations(Long.parseLong(messageInfo.getDate())));
     }
 }
