@@ -40,6 +40,7 @@ public class SmsUtils {
                 mMessages.add(new MessageInfo(messageText, contact, date, directionType));
                 // use msgData
             } while (cursor.moveToNext());
+            cursor.close();
         }
         return mMessages;
     }
@@ -68,6 +69,7 @@ public class SmsUtils {
                 mMessages.add(new MessageInfo(messageText, contact, date, directionType));
                 // use msgData
             } while (cursor.moveToNext());
+            cursor.close();
         }
         return mMessages;
     }

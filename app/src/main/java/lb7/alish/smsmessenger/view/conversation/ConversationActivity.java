@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import lb7.alish.smsmessenger.R;
+import lb7.alish.smsmessenger.logic.ContactUtils;
 import lb7.alish.smsmessenger.logic.SmsUtils;
 
 public class ConversationActivity extends AppCompatActivity {
@@ -24,12 +25,13 @@ public class ConversationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_conversation);
 
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
-
         if (getIntent() != null && getIntent().getStringExtra(PARTY_KEY) != null) {
             mParty = getIntent().getStringExtra(PARTY_KEY);
+        }
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle(ContactUtils.contactName(mParty));
         }
 
         final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
@@ -47,7 +49,7 @@ public class ConversationActivity extends AppCompatActivity {
                     SmsUtils.sendMessage(mParty, message);
                     recyclerView.setAdapter(new ConversationAdapter(SmsUtils.readSmsByContact(mParty)));
                     messageEditView.setText("");
-                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(messageEditView.getWindowToken(), 0);
                 }
             }
