@@ -2,6 +2,7 @@ package lb7.alish.smsmessenger.logic;
 
 import android.database.Cursor;
 import android.net.Uri;
+import android.telephony.SmsManager;
 
 import java.util.ArrayList;
 
@@ -69,5 +70,10 @@ public class SmsUtils {
             } while (cursor.moveToNext());
         }
         return mMessages;
+    }
+
+    public static void sendMessage(String phoneNumber, String message) {
+        SmsManager sms = SmsManager.getDefault();
+        sms.sendTextMessage(phoneNumber, null, message, null, null);
     }
 }
