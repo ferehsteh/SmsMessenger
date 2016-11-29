@@ -21,15 +21,11 @@ public class SmsUtils {
                 , null
                 , null);
         ArrayList<MessageInfo> mMessages = new ArrayList<>();
-        System.out.println("readSms start ");
         if (cursor != null && cursor.moveToFirst()) { // must check the result to prevent exception
             do {
                 String messageText = cursor.getString(cursor.getColumnIndexOrThrow("body"));
-                System.out.println("readSms messageText : " + messageText);
                 String contact = cursor.getString(cursor.getColumnIndexOrThrow("address"));
-                System.out.println("readSms contact : " + contact);
                 String date = cursor.getString(cursor.getColumnIndexOrThrow("date"));
-                System.out.println("readSms date : " + date);
 
                 DirectionType directionType;
                 if (cursor.getString(cursor.getColumnIndexOrThrow("type")).contains("1")) {
@@ -37,7 +33,8 @@ public class SmsUtils {
                 } else {
                     directionType = DirectionType.OUTPUT;
                 }
-                mMessages.add(new MessageInfo(messageText, contact, date, ContactUtils.contactName(contact), directionType));
+                mMessages.add(new MessageInfo(messageText, contact, date
+                        , /*ContactUtils.contactName(contact)*/"", directionType));
                 // use msgData
             } while (cursor.moveToNext());
             cursor.close();
@@ -52,13 +49,10 @@ public class SmsUtils {
                 , null
                 , null);
         ArrayList<MessageInfo> mMessages = new ArrayList<>();
-        System.out.println("readSms start ");
         if (cursor != null && cursor.moveToFirst()) { // must check the result to prevent exception
             do {
                 String messageText = cursor.getString(cursor.getColumnIndexOrThrow("body"));
-                System.out.println("readSms messageText : " + messageText);
                 String date = cursor.getString(cursor.getColumnIndexOrThrow("date"));
-                System.out.println("readSms date : " + date);
 
                 DirectionType directionType;
                 if (cursor.getString(cursor.getColumnIndexOrThrow("type")).contains("1")) {
@@ -66,7 +60,8 @@ public class SmsUtils {
                 } else {
                     directionType = DirectionType.OUTPUT;
                 }
-                mMessages.add(new MessageInfo(messageText, contact, date, ContactUtils.contactName(contact), directionType));
+                mMessages.add(new MessageInfo(messageText, contact, date
+                        , /*ContactUtils.contactName(contact)*/"", directionType));
                 // use msgData
             } while (cursor.moveToNext());
             cursor.close();

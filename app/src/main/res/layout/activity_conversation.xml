@@ -23,23 +23,27 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#AAAAAA"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingEnd="5dp"
+            android:paddingStart="5dp">
 
             <EditText
-                android:layout_weight="5"
+                android:id="@+id/message_text_view"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="2"
                 android:hint="Type here ..."
-                android:id="@+id/message_text_view"
                 android:textColor="@android:color/black"
                 android:textColorHint="#555555"/>
 
             <Button
-                android:layout_weight="1"
-                android:layout_width="0dp"
                 android:id="@+id/send_button"
-                android:layout_height="wrap_content"
-                android:text="Send"/>
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center"
+                android:background="@drawable/ic_send_white_16dp"
+                android:shadowColor="@android:color/black"
+                android:shadowRadius="5"/>
         </LinearLayout>
     </LinearLayout>
 

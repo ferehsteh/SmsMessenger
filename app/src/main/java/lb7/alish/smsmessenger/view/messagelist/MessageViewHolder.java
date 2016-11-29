@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import lb7.alish.smsmessenger.R;
+import lb7.alish.smsmessenger.logic.ContactUtils;
 import lb7.alish.smsmessenger.view.utils.TimeUtils;
 
 /**
@@ -27,7 +28,9 @@ public class MessageViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void bind(MessageInfo messageInfo) {
-        mContactName.setText(messageInfo.getDisplayName());
+        if (messageInfo.getContact()!=null && !messageInfo.getContact().isEmpty()) {
+            mContactName.setText(ContactUtils.contactName(messageInfo.getContact()));
+        }
         mMessageText.setText(messageInfo.getMessageText());
         mDateText.setText(TimeUtils.getTime(Long.parseLong(messageInfo.getDate())));
     }
