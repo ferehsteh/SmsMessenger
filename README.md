@@ -6,3 +6,4 @@ Implemented features:
 * read all message of a party
 * send message
 * detect dual sim phones
+* open app on receive a sms
