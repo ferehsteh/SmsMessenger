@@ -36,6 +36,15 @@
                 android:textColorHint="@android:color/black"/>
 
             <Button
+                android:id="@+id/sim_card_button"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center"
+                android:text="1"
+                android:visibility="gone"
+                />
+
+            <Button
                 android:id="@+id/send_button"
                 android:layout_width="48dp"
                 android:layout_height="48dp"

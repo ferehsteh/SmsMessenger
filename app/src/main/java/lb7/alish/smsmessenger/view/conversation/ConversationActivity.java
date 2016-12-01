@@ -13,12 +13,16 @@ import android.widget.EditText;
 
 import lb7.alish.smsmessenger.R;
 import lb7.alish.smsmessenger.logic.ContactUtils;
+import lb7.alish.smsmessenger.logic.SimCardUtils;
 import lb7.alish.smsmessenger.logic.SmsUtils;
+import lb7.alish.smsmessenger.logic.pref.AppPref;
 
 public class ConversationActivity extends AppCompatActivity {
 
     public static String PARTY_KEY = "lb7.alish.smsmessenger.view.conversation.ConversationActivity.PARTY_KEY";
     private String mParty;
+    int selectedSim = 1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +42,29 @@ public class ConversationActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, true));
         recyclerView.setAdapter(new ConversationAdapter(SmsUtils.readSmsByContact(mParty)));
         Button sendButton = (Button) findViewById(R.id.send_button);
+        final Button simCardButton = (Button) findViewById(R.id.sim_card_button);
+        boolean isDualSim = SimCardUtils.isDualSim();
+        if (isDualSim) {
+            simCardButton.setVisibility(View.VISIBLE);
+            selectedSim = AppPref.getInstance().getSelectedSim();
+            simCardButton.setText("" + selectedSim);
 
+            simCardButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int lastSelectedSim = AppPref.getInstance().getSelectedSim();
+                    if (lastSelectedSim == 1) {
+                        AppPref.getInstance().setSelectedSim(2);
+                        simCardButton.setText("2");
+                        selectedSim = 2;
+                    } else {
+                        AppPref.getInstance().setSelectedSim(1);
+                        simCardButton.setText("1");
+                        selectedSim = 1;
+                    }
+                }
+            });
+        }
 
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,7 +72,7 @@ public class ConversationActivity extends AppCompatActivity {
                 EditText messageEditView = (EditText) findViewById(R.id.message_text_view);
                 String message = messageEditView.getText().toString();
                 if (!message.isEmpty()) {
-                    SmsUtils.sendMessage(mParty, message);
+                    SmsUtils.sendMessage(mParty, message, selectedSim);
                     recyclerView.setAdapter(new ConversationAdapter(SmsUtils.readSmsByContact(mParty)));
                     messageEditView.setText("");
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);

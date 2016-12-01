@@ -4,6 +4,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.Telephony;
 import android.telephony.SmsManager;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -16,8 +17,7 @@ import lb7.alish.smsmessenger.view.messagelist.MessageInfo;
 
 public class SmsUtils {
     public static ArrayList<MessageInfo> readAllSms() {
-        Cursor cursor = null;
-        cursor = MyApplication.getContext().getContentResolver().query(Uri.parse("content://sms")
+        Cursor cursor = MyApplication.getContext().getContentResolver().query(Uri.parse("content://sms")
                 , null
                 , "address IS NOT NULL) GROUP BY (thread_id"
                 , null
@@ -72,8 +72,12 @@ public class SmsUtils {
         return mMessages;
     }
 
-    public static void sendMessage(String phoneNumber, String message) {
-        SmsManager sms = SmsManager.getDefault();
-        sms.sendTextMessage(phoneNumber, null, message, null, null);
+    public static void sendMessage(String phoneNumber, String message, int simId) {
+        if (simId == 1) {
+            SmsManager sms = SmsManager.getDefault();
+            sms.sendTextMessage(phoneNumber, null, message, null, null);
+        } else {
+            Toast.makeText(MyApplication.getContext(), "Dual Sim is not supported yet", Toast.LENGTH_SHORT).show();
+        }
     }
 }
