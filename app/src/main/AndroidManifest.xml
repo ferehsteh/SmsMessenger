@@ -36,6 +36,11 @@
                 <action android:name="android.provider.Telephony.SMS_RECEIVED"/>
             </intent-filter>
         </receiver>
+
+        <activity
+            android:name=".view.contacts.ContactListActivity"
+            android:label="@string/title_activity_contact_list">
+        </activity>
     </application>
 
 </manifest>

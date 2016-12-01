@@ -12,7 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import lb7.alish.smsmessenger.R;
-import lb7.alish.smsmessenger.logic.ContactUtils;
+import lb7.alish.smsmessenger.logic.contacts.ContactUtils;
 import lb7.alish.smsmessenger.logic.SimCardUtils;
 import lb7.alish.smsmessenger.logic.sms.SmsUtils;
 import lb7.alish.smsmessenger.logic.pref.AppPref;
