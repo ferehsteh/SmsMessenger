@@ -1,4 +1,4 @@
-package lb7.alish.smsmessenger.logic;
+package lb7.alish.smsmessenger.logic.sms;
 
 import android.database.Cursor;
 import android.net.Uri;
@@ -9,6 +9,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import lb7.alish.smsmessenger.MyApplication;
+import lb7.alish.smsmessenger.logic.DirectionType;
 import lb7.alish.smsmessenger.view.messagelist.MessageInfo;
 
 /**

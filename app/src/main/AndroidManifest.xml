@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.READ_SMS"/>
     <uses-permission android:name="android.permission.SEND_SMS"/>
+    <uses-permission android:name="android.permission.RECEIVE_SMS"/>
     <uses-permission android:name="android.permission.READ_CONTACTS"/>
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
 
@@ -25,6 +26,16 @@
             android:name=".view.conversation.ConversationActivity"
             android:label="@string/title_activity_conversation">
         </activity>
+
+        <receiver
+            android:name=".logic.sms.SMSBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="android.permission.BROADCAST_SMS">
+            <intent-filter android:priority="2147483647">
+                <action android:name="android.provider.Telephony.SMS_RECEIVED"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

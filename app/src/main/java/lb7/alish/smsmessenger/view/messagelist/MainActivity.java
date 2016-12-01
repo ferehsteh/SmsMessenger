@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 import lb7.alish.smsmessenger.R;
 import lb7.alish.smsmessenger.logic.MarshmallowPermission;
-import lb7.alish.smsmessenger.logic.SmsUtils;
+import lb7.alish.smsmessenger.logic.sms.SmsUtils;
 
 public class MainActivity extends AppCompatActivity {
 
