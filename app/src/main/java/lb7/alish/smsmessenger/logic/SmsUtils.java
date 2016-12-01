@@ -16,6 +16,7 @@ import lb7.alish.smsmessenger.view.messagelist.MessageInfo;
  */
 
 public class SmsUtils {
+
     public static ArrayList<MessageInfo> readAllSms() {
         Cursor cursor = MyApplication.getContext().getContentResolver().query(Uri.parse("content://sms")
                 , null

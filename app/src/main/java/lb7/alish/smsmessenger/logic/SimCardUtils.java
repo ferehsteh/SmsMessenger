@@ -21,15 +21,7 @@ public class SimCardUtils {
         try {
             TelephonyManager secondSimInfo = getSecondSimInfo(MyApplication.getContext());
             return secondSimInfo != null;
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-            return false;
-        } catch (NoSuchMethodException e) {
-            return false;
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-            return false;
-        } catch (IllegalAccessException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
