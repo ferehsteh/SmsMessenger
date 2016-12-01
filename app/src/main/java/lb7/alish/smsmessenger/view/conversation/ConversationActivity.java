@@ -1,10 +1,14 @@
 package lb7.alish.smsmessenger.view.conversation;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -12,10 +16,10 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import lb7.alish.smsmessenger.R;
-import lb7.alish.smsmessenger.logic.contacts.ContactUtils;
 import lb7.alish.smsmessenger.logic.SimCardUtils;
-import lb7.alish.smsmessenger.logic.sms.SmsUtils;
+import lb7.alish.smsmessenger.logic.contacts.ContactUtils;
 import lb7.alish.smsmessenger.logic.pref.AppPref;
+import lb7.alish.smsmessenger.logic.sms.SmsUtils;
 
 public class ConversationActivity extends AppCompatActivity {
 
@@ -88,7 +92,23 @@ public class ConversationActivity extends AppCompatActivity {
             case android.R.id.home:
                 super.onBackPressed();
                 break;
+            case R.id.action_call:
+                makeCall();
+                break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater findMenuItems = getMenuInflater();
+        findMenuItems.inflate(R.menu.conversation_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    private void makeCall() {
+        Intent intent = new Intent(Intent.ACTION_DIAL);
+        intent.setData(Uri.parse("tel:" + mParty));
+        startActivity(intent);
     }
 }
