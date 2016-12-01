@@ -7,3 +7,4 @@ Implemented features:
 * send message
 * detect dual sim phones
 * open app on receive a sms
+* show list of contacts
