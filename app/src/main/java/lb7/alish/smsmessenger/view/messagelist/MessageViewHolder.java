@@ -1,6 +1,8 @@
 package lb7.alish.smsmessenger.view.messagelist;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
@@ -9,7 +11,9 @@ import lb7.alish.smsmessenger.MyApplication;
 import lb7.alish.smsmessenger.R;
 import lb7.alish.smsmessenger.logic.contacts.ContactUtils;
 import lb7.alish.smsmessenger.view.conversation.ConversationActivity;
+import lb7.alish.smsmessenger.view.conversation.ConversationFragment;
 import lb7.alish.smsmessenger.view.utils.TimeUtils;
+import lb7.alish.smsmessenger.view.utils.UiUtils;
 
 /**
  * Created by AliSh on 11/29/2016.
@@ -30,7 +34,7 @@ public class MessageViewHolder extends RecyclerView.ViewHolder {
         itemView = view;
     }
 
-    public void bind(final MessageInfo messageInfo) {
+    public void bind(final Activity activity, final MessageInfo messageInfo) {
         final String contactNumber = messageInfo.getContact();
         if (contactNumber != null && !contactNumber.isEmpty()) {
             mContactName.setText(ContactUtils.contactName(contactNumber));
@@ -40,10 +44,18 @@ public class MessageViewHolder extends RecyclerView.ViewHolder {
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MyApplication.getContext(), ConversationActivity.class);
-                intent.putExtra(ConversationActivity.PARTY_KEY, contactNumber);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                MyApplication.getContext().startActivity(intent);
+                if (MyApplication.getInstance().isRunFragmentBase) {
+                    ConversationFragment fragment = new ConversationFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putString(ConversationFragment.PARTY_KEY, contactNumber);
+                    fragment.setArguments(bundle);
+                    UiUtils.addFragmentToBackStack(activity, fragment);
+                } else {
+                    Intent intent = new Intent(MyApplication.getContext(), ConversationActivity.class);
+                    intent.putExtra(ConversationActivity.PARTY_KEY, contactNumber);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    MyApplication.getContext().startActivity(intent);
+                }
             }
         });
     }

@@ -1,13 +1,14 @@
 package lb7.alish.smsmessenger.view.contacts;
 
-import android.content.Intent;
+import android.app.Activity;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
-import lb7.alish.smsmessenger.MyApplication;
 import lb7.alish.smsmessenger.R;
-import lb7.alish.smsmessenger.view.conversation.ConversationActivity;
+import lb7.alish.smsmessenger.view.conversation.ConversationFragment;
+import lb7.alish.smsmessenger.view.utils.UiUtils;
 
 /**
  * Created by AliSh on 11/29/2016.
@@ -26,16 +27,17 @@ public class ContactViewHolder extends RecyclerView.ViewHolder {
         itemView = view;
     }
 
-    public void bind(final ContactInfo messageInfo) {
+    public void bind(final Activity activity, final ContactInfo messageInfo) {
         mMessageText.setText(messageInfo.getName());
         mDateText.setText(messageInfo.getPhoneNumber());
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MyApplication.getContext(), ConversationActivity.class);
-                intent.putExtra(ConversationActivity.PARTY_KEY, messageInfo.getPhoneNumber());
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                MyApplication.getContext().startActivity(intent);
+                ConversationFragment fragment = new ConversationFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString(ConversationFragment.PARTY_KEY, messageInfo.getPhoneNumber());
+                fragment.setArguments(bundle);
+                UiUtils.addFragmentToBackStack(activity, fragment);
             }
         });
     }

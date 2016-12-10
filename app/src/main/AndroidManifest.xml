@@ -26,6 +26,10 @@
             android:name=".view.conversation.ConversationActivity"
             android:label="@string/title_activity_conversation">
         </activity>
+        <activity
+            android:name=".view.contacts.ContactListActivity"
+            android:label="@string/title_activity_contact_list">
+        </activity>
 
         <receiver
             android:name=".logic.sms.SMSBroadcastReceiver"
@@ -37,10 +41,6 @@
             </intent-filter>
         </receiver>
 
-        <activity
-            android:name=".view.contacts.ContactListActivity"
-            android:label="@string/title_activity_contact_list">
-        </activity>
     </application>
 
 </manifest>

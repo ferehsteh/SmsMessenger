@@ -33,7 +33,8 @@ public class ContactUtils {
 
     public static ArrayList<ContactInfo> getAllContacts() {
         ContentResolver cr = MyApplication.getContext().getContentResolver();
-        Cursor phones = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null);
+        Cursor phones = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null
+                , ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
         ArrayList<ContactInfo> contactInfos = new ArrayList<>();
         if (phones != null && phones.moveToFirst()) {
             do {

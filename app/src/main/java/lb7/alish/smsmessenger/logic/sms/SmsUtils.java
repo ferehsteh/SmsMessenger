@@ -1,5 +1,9 @@
 package lb7.alish.smsmessenger.logic.sms;
 
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.Telephony;
@@ -38,6 +42,7 @@ public class SmsUtils {
                 } else {
                     directionType = DirectionType.OUTPUT;
                 }
+
                 mMessages.add(new MessageInfo(messageText.replaceAll("\\n", " "), contact, date
                         , /*ContactUtils.contactName(contact)*/"", directionType));
                 // use msgData
@@ -65,6 +70,10 @@ public class SmsUtils {
                 } else {
                     directionType = DirectionType.OUTPUT;
                 }
+
+                String status = cursor.getString(cursor.getColumnIndexOrThrow("status"));
+                System.out.println("status: " + status);
+
                 mMessages.add(new MessageInfo(messageText, contact, date
                         , /*ContactUtils.contactName(contact)*/"", directionType));
                 // use msgData
@@ -77,9 +86,17 @@ public class SmsUtils {
     public static void sendMessage(String phoneNumber, String message, int simId) {
         if (simId == 1) {
             SmsManager sms = SmsManager.getDefault();
-            sms.sendTextMessage(phoneNumber, null, message, null, null);
+
+            String DELIVERED = "SMS_DELIVERED";
+            BroadcastReceiver deliveryBroadcastReceiver = new DeliverReceiver();
+            PendingIntent deliveredPI = PendingIntent.getBroadcast(MyApplication.getContext(), 0, new Intent(DELIVERED), 0);
+            MyApplication.getContext().registerReceiver(deliveryBroadcastReceiver, new IntentFilter(DELIVERED));
+
+            sms.sendTextMessage(phoneNumber, null, message, null, deliveredPI);
         } else {
             Toast.makeText(MyApplication.getContext(), "Dual Sim is not supported yet", Toast.LENGTH_SHORT).show();
         }
     }
+
+
 }

@@ -28,7 +28,7 @@ public class ContactListActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         ArrayList<ContactInfo> contacts = ContactUtils.getAllContacts();
         System.out.println("contact size: " + contacts.size());
-        mRecyclerView.setAdapter(new ContactsAdapter(contacts));
+        mRecyclerView.setAdapter(new ContactsAdapter(this, contacts));
     }
 
 

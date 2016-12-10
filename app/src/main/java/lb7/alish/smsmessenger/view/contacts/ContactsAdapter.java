@@ -1,5 +1,6 @@
 package lb7.alish.smsmessenger.view.contacts;
 
+import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,9 +16,11 @@ import lb7.alish.smsmessenger.R;
 
 public class ContactsAdapter extends RecyclerView.Adapter<ContactViewHolder> {
     private ArrayList<ContactInfo> mMessageInfos;
+    private Activity mActivity;
 
-    public ContactsAdapter(ArrayList<ContactInfo> messageInfos) {
+    public ContactsAdapter(Activity activity, ArrayList<ContactInfo> messageInfos) {
         mMessageInfos = messageInfos;
+        mActivity = activity;
     }
 
     @Override
@@ -28,7 +31,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactViewHolder> {
 
     @Override
     public void onBindViewHolder(final ContactViewHolder holder, int position) {
-        holder.bind(mMessageInfos.get(position));
+        holder.bind(mActivity, mMessageInfos.get(position));
     }
 
     @Override
