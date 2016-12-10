@@ -45,6 +45,7 @@ public class MessageListFragment extends Fragment {
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 //        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("AAAA");
 //        toolbar.setSubtitle("AAAA");
+
         return view;
     }
 
