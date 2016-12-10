@@ -71,9 +71,6 @@ public class SmsUtils {
                     directionType = DirectionType.OUTPUT;
                 }
 
-                String status = cursor.getString(cursor.getColumnIndexOrThrow("status"));
-                System.out.println("status: " + status);
-
                 mMessages.add(new MessageInfo(messageText, contact, date
                         , /*ContactUtils.contactName(contact)*/"", directionType));
                 // use msgData
