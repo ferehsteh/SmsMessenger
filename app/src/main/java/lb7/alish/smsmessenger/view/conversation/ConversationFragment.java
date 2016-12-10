@@ -17,11 +17,8 @@ import android.widget.EditText;
 
 import lb7.alish.smsmessenger.R;
 import lb7.alish.smsmessenger.logic.SimCardUtils;
-import lb7.alish.smsmessenger.logic.contacts.ContactUtils;
 import lb7.alish.smsmessenger.logic.pref.AppPref;
 import lb7.alish.smsmessenger.logic.sms.SmsUtils;
-import lb7.alish.smsmessenger.view.messagelist.MainActivity;
-import lb7.alish.smsmessenger.view.utils.UiUtils;
 
 public class ConversationFragment extends Fragment {
 
@@ -33,7 +30,7 @@ public class ConversationFragment extends Fragment {
     public void onResume() {
         super.onResume();
         if (mParty != null) {
-            UiUtils.setActionBarTitle((MainActivity) getActivity(), ContactUtils.contactName(mParty), true);
+//            UiUtils.setActionBarTitle((MainActivity) getActivity(), ContactUtils.contactName(mParty), true);
         }
     }
 
@@ -45,7 +42,7 @@ public class ConversationFragment extends Fragment {
             mParty = getArguments().getString(PARTY_KEY);
         }
         System.out.println("mParty : " + mParty);
-        UiUtils.setActionBarTitle((MainActivity) getActivity(), ContactUtils.contactName(mParty), true);
+//        UiUtils.setActionBarTitle((MainActivity) getActivity(), ContactUtils.contactName(mParty), true);
         final RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, true));
         recyclerView.setAdapter(new ConversationAdapter(SmsUtils.readSmsByContact(mParty)));

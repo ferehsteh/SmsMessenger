@@ -6,8 +6,10 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +31,7 @@ public class MessageListFragment extends Fragment {
     private String[] requiredPermission = new String[]{Manifest.permission.READ_SMS, Manifest.permission.READ_CONTACTS};
     private RecyclerView recyclerView;
     private FloatingActionButton mFloatingActionButton;
+    private Toolbar toolbar;
 
     @Nullable
     @Override
@@ -38,6 +41,11 @@ public class MessageListFragment extends Fragment {
         mFloatingActionButton = (FloatingActionButton) view.findViewById(R.id.fab);
         recyclerView.setLayoutManager(new GridLayoutManager(view.getContext(), 1));
         recyclerView.setHasFixedSize(true);
+        toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+
+//        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("AAAA");
+//        toolbar.setSubtitle("AAAA");
         return view;
     }
 
