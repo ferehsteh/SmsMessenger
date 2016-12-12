@@ -6,8 +6,10 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,12 +27,14 @@ public class ConversationFragment extends Fragment {
     public static String PARTY_KEY = "lb7.alish.smsmessenger.view.conversation.ConversationFragment.PARTY_KEY";
     private String mParty = null;
     int selectedSim = 1;
+    private Toolbar toolbar;
 
     @Override
     public void onResume() {
         super.onResume();
         if (mParty != null) {
 //            UiUtils.setActionBarTitle((MainActivity) getActivity(), ContactUtils.contactName(mParty), true);
+
         }
     }
 
@@ -48,6 +52,12 @@ public class ConversationFragment extends Fragment {
         recyclerView.setAdapter(new ConversationAdapter(SmsUtils.readSmsByContact(mParty)));
         Button sendButton = (Button) view.findViewById(R.id.send_button);
         final Button simCardButton = (Button) view.findViewById(R.id.sim_card_button);
+        toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+//        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
+        activity.setSupportActionBar(toolbar);
+        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         boolean isDualSim = SimCardUtils.isDualSim();
         if (isDualSim) {
             simCardButton.setVisibility(View.VISIBLE);

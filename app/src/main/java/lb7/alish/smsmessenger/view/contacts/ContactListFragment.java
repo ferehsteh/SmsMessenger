@@ -41,8 +41,10 @@ public class ContactListFragment extends Fragment {
         ArrayList<ContactInfo> contacts = ContactUtils.getAllContacts();
         recyclerView.setAdapter(new ContactsAdapter(getActivity(), contacts));
         toolbar = (Toolbar) view.findViewById(R.id.toolbar);
-        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-
+//        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
+        activity.setSupportActionBar(toolbar);
+        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         return view;
     }
 

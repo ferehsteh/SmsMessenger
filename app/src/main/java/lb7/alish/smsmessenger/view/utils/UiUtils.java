@@ -1,9 +1,7 @@
 package lb7.alish.smsmessenger.view.utils;
 
-
 import android.app.Activity;
 import android.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 
 import lb7.alish.smsmessenger.R;
 import lb7.alish.smsmessenger.view.messagelist.MainActivity;
@@ -14,7 +12,7 @@ import lb7.alish.smsmessenger.view.messagelist.MainActivity;
 
 public class UiUtils {
 
-    public static void startFragment(FragmentActivity activity, Fragment fragment) {
+    public static void startFragment(Activity activity, Fragment fragment) {
         android.app.FragmentManager fragmentManager = activity.getFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.contentFragment, fragment)
