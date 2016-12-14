@@ -27,8 +27,8 @@ public class ContactListFragment extends Fragment {
     public void onResume() {
         super.onResume();
 //        UiUtils.setActionBarTitle((MainActivity) getActivity(), "Contacts", true);
-        toolbar.setSubtitle("CCC");
-        toolbar.setTitle("BBB");
+//        toolbar.setSubtitle("CCC");
+        toolbar.setTitle(R.string.contact_title);
 //        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("BBBB");
     }
 

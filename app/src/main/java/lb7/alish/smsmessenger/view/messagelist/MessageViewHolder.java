@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import lb7.alish.smsmessenger.MyApplication;
@@ -24,14 +25,16 @@ public class MessageViewHolder extends RecyclerView.ViewHolder {
     private TextView mContactName;
     private TextView mMessageText;
     private TextView mDateText;
-    private View itemView;
+    // private View itemView;
+    private ImageView mContactPic;
 
     public MessageViewHolder(View view) {
         super(view);
         mContactName = (TextView) view.findViewById(R.id.contactTextView);
         mMessageText = (TextView) view.findViewById(R.id.messageTextView);
         mDateText = (TextView) view.findViewById(R.id.dateTextView);
-        itemView = view;
+        mContactPic = (ImageView) view.findViewById(R.id.pic);
+        // itemView = view;
     }
 
     public void bind(final Activity activity, final MessageInfo messageInfo) {
@@ -41,6 +44,17 @@ public class MessageViewHolder extends RecyclerView.ViewHolder {
         }
         mMessageText.setText(messageInfo.getMessageText());
         mDateText.setText(TimeUtils.getTime(Long.parseLong(messageInfo.getDate())));
+        // Set image if exists
+        try {
+
+            if (messageInfo.getThumb() != null) {
+                mContactPic.setImageBitmap(messageInfo.getThumb());
+            } else {
+                mContactPic.setImageResource(R.mipmap.contact_pic);
+            }
+        } catch (OutOfMemoryError e) {
+            e.printStackTrace();
+        }
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

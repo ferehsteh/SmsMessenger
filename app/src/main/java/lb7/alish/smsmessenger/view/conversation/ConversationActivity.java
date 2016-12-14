@@ -24,9 +24,8 @@ import lb7.alish.smsmessenger.logic.sms.SmsUtils;
 public class ConversationActivity extends AppCompatActivity {
 
     public static String PARTY_KEY = "lb7.alish.smsmessenger.view.conversation.ConversationActivity.PARTY_KEY";
-    private String mParty;
     int selectedSim = 1;
-
+    private String mParty;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

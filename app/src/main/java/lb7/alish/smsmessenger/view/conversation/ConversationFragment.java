@@ -11,6 +11,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -25,23 +28,51 @@ import lb7.alish.smsmessenger.logic.sms.SmsUtils;
 public class ConversationFragment extends Fragment {
 
     public static String PARTY_KEY = "lb7.alish.smsmessenger.view.conversation.ConversationFragment.PARTY_KEY";
-    private String mParty = null;
     int selectedSim = 1;
+    private String mParty = null;
     private Toolbar toolbar;
 
     @Override
     public void onResume() {
         super.onResume();
+        toolbar.setTitle(R.string.new_title);
         if (mParty != null) {
 //            UiUtils.setActionBarTitle((MainActivity) getActivity(), ContactUtils.contactName(mParty), true);
 
         }
     }
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // TODO Add your menu entries here
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_call:
+                String phone = mParty;
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phone, null));
+                startActivity(intent);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.activity_conversation, container, false);
+
         if (getArguments() != null && getArguments().getString(PARTY_KEY) != null) {
             mParty = getArguments().getString(PARTY_KEY);
         }
@@ -95,6 +126,7 @@ public class ConversationFragment extends Fragment {
                 }
             }
         });
+
         return view;
     }
 

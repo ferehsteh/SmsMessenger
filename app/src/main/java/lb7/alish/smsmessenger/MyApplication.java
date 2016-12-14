@@ -16,16 +16,14 @@ public class MyApplication extends Application {
         return mInstance.getApplicationContext();
     }
 
-
+    public static MyApplication getInstance() {
+        return mInstance;
+    }
 
     @Override
     public void onCreate() {
         super.onCreate();
         mInstance = this;
-    }
-
-    public static MyApplication getInstance() {
-        return mInstance;
     }
 
     @Override
