@@ -16,6 +16,8 @@ public class MyApplication extends Application {
         return mInstance.getApplicationContext();
     }
 
+
+
     @Override
     public void onCreate() {
         super.onCreate();
