@@ -50,7 +50,7 @@ public class ConversationFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        // TODO Add your menu entries here
+        inflater.inflate(R.menu.conversation_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -59,8 +59,7 @@ public class ConversationFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.action_call:
                 String phone = mParty;
-                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phone, null));
-                startActivity(intent);
+                makeCall(phone);
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -130,9 +129,8 @@ public class ConversationFragment extends Fragment {
         return view;
     }
 
-    private void makeCall() {
-        Intent intent = new Intent(Intent.ACTION_DIAL);
-        intent.setData(Uri.parse("tel:" + mParty));
+    private void makeCall(String phone) {
+        Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phone, null));
         startActivity(intent);
     }
 }

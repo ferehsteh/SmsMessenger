@@ -2,10 +2,12 @@ package lb7.alish.smsmessenger.view.messagelist;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.QuickContactBadge;
 import android.widget.TextView;
 
 import lb7.alish.smsmessenger.MyApplication;
@@ -22,6 +24,7 @@ import lb7.alish.smsmessenger.view.utils.UiUtils;
 
 public class MessageViewHolder extends RecyclerView.ViewHolder {
 
+    QuickContactBadge badge;
     private TextView mContactName;
     private TextView mMessageText;
     private TextView mDateText;
@@ -34,6 +37,7 @@ public class MessageViewHolder extends RecyclerView.ViewHolder {
         mMessageText = (TextView) view.findViewById(R.id.messageTextView);
         mDateText = (TextView) view.findViewById(R.id.dateTextView);
         mContactPic = (ImageView) view.findViewById(R.id.pic);
+//        badge = (QuickContactBadge) view.findViewById(R.id.pic);
         // itemView = view;
     }
 
@@ -44,17 +48,26 @@ public class MessageViewHolder extends RecyclerView.ViewHolder {
         }
         mMessageText.setText(messageInfo.getMessageText());
         mDateText.setText(TimeUtils.getTime(Long.parseLong(messageInfo.getDate())));
-        // Set image if exists
         try {
-
-            if (messageInfo.getThumb() != null) {
-                mContactPic.setImageBitmap(messageInfo.getThumb());
-            } else {
-                mContactPic.setImageResource(R.mipmap.contact_pic);
+            if (messageInfo.getImage() != null) {
+                mContactPic.setImageURI(Uri.parse(messageInfo.getImage()));
             }
-        } catch (OutOfMemoryError e) {
+        } catch (NullPointerException e) {
             e.printStackTrace();
         }
+//        new QuickContactHelper(activity, badge, messageInfo.getContact()).addThumbnail();
+
+        // Set image if exists
+//        try {
+//
+//            if (messageInfo.getStream() != null) {
+//                mContactPic.setImageBitmap(ContactUtils.retrieveContactPhoto(MyApplication.getContext(),messageInfo.getStream()));
+//            } else {
+//                mContactPic.setImageResource(R.mipmap.contact_pic);
+//            }
+//        } catch (OutOfMemoryError e) {
+//            e.printStackTrace();
+//        }
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,6 +83,13 @@ public class MessageViewHolder extends RecyclerView.ViewHolder {
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     MyApplication.getContext().startActivity(intent);
                 }
+            }
+        });
+        mContactPic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", contactNumber, null));
+                activity.startActivity(intent);
             }
         });
     }

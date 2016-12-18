@@ -1,6 +1,7 @@
 package lb7.alish.smsmessenger.view.contacts;
 
-import android.graphics.Bitmap;
+
+import java.io.InputStream;
 
 /**
  * Created by AliSh on 12/1/2016.
@@ -10,12 +11,14 @@ public class ContactInfo {
 
     private String mName;
     private String mPhoneNumber;
-    private Bitmap mThumb;
+    private String mThumbnailURI;
+    private InputStream mStream;
 
-    public ContactInfo(String name, String phoneNumber, Bitmap thumb) {
+    public ContactInfo(String name, String phoneNumber, String thumbnailUri, InputStream stream) {
         mName = name;
         mPhoneNumber = phoneNumber;
-        mThumb = thumb;
+        mThumbnailURI = thumbnailUri;
+        mStream = stream;
     }
 
     public String getName() {
@@ -26,11 +29,15 @@ public class ContactInfo {
         return mPhoneNumber;
     }
 
-    public Bitmap getThumb() {
-        return mThumb;
+    public String getThumbnail() {
+        return mThumbnailURI;
     }
 
-    public void setThumb(Bitmap thumb) {
-        this.mThumb = thumb;
+    public void setThumbnail(String thumbnailUri) {
+        this.mThumbnailURI = thumbnailUri;
+    }
+
+    public InputStream getStream() {
+        return mStream;
     }
 }

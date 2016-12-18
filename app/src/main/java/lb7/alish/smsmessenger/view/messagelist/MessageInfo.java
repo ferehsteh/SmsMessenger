@@ -1,7 +1,5 @@
 package lb7.alish.smsmessenger.view.messagelist;
 
-import android.graphics.Bitmap;
-
 import lb7.alish.smsmessenger.logic.DirectionType;
 
 /**
@@ -16,17 +14,17 @@ public class MessageInfo {
     private DirectionType mDirectionType;
     private String mDate;
     private MessageState mMessageState;
-    private Bitmap mThumb;
+    private String mImage;
 
 
     public MessageInfo(String message, String contact, String date, String displayName, DirectionType directionType
-            /*, MessageState messageState*/, Bitmap thumb) {
+            /*, MessageState messageState*/, String image) {
         mMessageText = message;
         mContact = contact;
         mDirectionType = directionType;
         mDate = date;
         mDisplayName = displayName;
-        mThumb = thumb;
+        mImage = image;
         //mMessageState = messageState;
     }
 
@@ -54,11 +52,11 @@ public class MessageInfo {
         return mMessageState;
     }
 
-    public Bitmap getThumb() {
-        return mThumb;
+    public String getImage() {
+        return mImage;
     }
 
-    public void setThumb(Bitmap thumb) {
-        this.mThumb = thumb;
+    public void setImage(String image) {
+        this.mImage = image;
     }
 }

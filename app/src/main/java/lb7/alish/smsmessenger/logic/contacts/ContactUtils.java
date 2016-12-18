@@ -9,7 +9,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.ContactsContract;
 
-import java.io.IOException;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Random;
@@ -18,11 +18,13 @@ import lb7.alish.smsmessenger.MyApplication;
 import lb7.alish.smsmessenger.R;
 import lb7.alish.smsmessenger.view.contacts.ContactInfo;
 
+
 /**
  * Created by AliSh on 11/29/2016.
  */
 
 public class ContactUtils {
+
 
     public static String contactName(String phoneNumber) {
         String contactName = phoneNumber;
@@ -48,8 +50,22 @@ public class ContactUtils {
             do {
                 String name = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
                 String phoneNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                Bitmap bit_thumb = retrieveContactPhoto(MyApplication.getContext(), phoneNumber);
-                contactInfos.add(new ContactInfo(name, phoneNumber, bit_thumb));
+                //1
+                String photoUri = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.PHOTO_THUMBNAIL_URI));
+                //2
+                InputStream inputStream = null;
+                try {
+                    if (photoUri != null) {
+                        inputStream = cr.openInputStream(Uri.parse(photoUri));
+                    }
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+                //3
+//                InputStream inputStream = ContactsContract.Contacts.openContactPhotoInputStream(cr,
+//                        ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI,
+//                                new Long(phones.getLong(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.CONTACT_ID)))));
+                contactInfos.add(new ContactInfo(name, phoneNumber, photoUri, inputStream));
             } while (phones.moveToNext());
             phones.close();
         }
@@ -57,27 +73,54 @@ public class ContactUtils {
         return contactInfos;
     }
 
-    public static Bitmap retrieveContactPhoto(Context context, String phoneNumber) {
+    public static String getContactPhotoURI(Context context, String phoneNumber) {
+        String image = null;
+        Cursor phonesCursor = null;
+        if (phoneNumber != null && !phoneNumber.equals("")) {
+            try {
+                Uri phoneUri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(phoneNumber));
+                phonesCursor = context.getContentResolver().query(phoneUri, new String[]{ContactsContract.PhoneLookup.PHOTO_THUMBNAIL_URI}, null, null, null);
+                if (phonesCursor != null && phonesCursor.moveToFirst()) {
+                    image = phonesCursor.getString(0);
+                } else {
+//                Log.e("no contact ", "============");
+                }
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            } catch (IllegalArgumentException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (phonesCursor != null && !phonesCursor.isClosed())
+                        phonesCursor.close();
+
+                } catch (Exception ex) {
+                }
+            }
+        }
+        return image;
+    }
+
+    public static InputStream getPhotoURI1(Context context, String phoneNumber) {
         String name = contactName(phoneNumber);
         String contactId = "0";
         if (!name.equals(phoneNumber)) {
             contactId = String.valueOf(getContactIDFromNumber(phoneNumber, context));
         }
 
+        InputStream inputStream = ContactsContract.Contacts.openContactPhotoInputStream(context.getContentResolver(),
+                ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, new Long(contactId)));
+
+        return inputStream;
+    }
+
+    public static Bitmap retrieveContactPhoto(Context context, InputStream inputStream) {
+
         Bitmap photo = BitmapFactory.decodeResource(context.getResources(),
                 R.mipmap.contact_pic);
 
-        try {
-            InputStream inputStream = ContactsContract.Contacts.openContactPhotoInputStream(context.getContentResolver(),
-                    ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, new Long(contactId)));
-
-            if (inputStream != null) {
-                photo = BitmapFactory.decodeStream(inputStream);
-                inputStream.close();
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (inputStream != null) {
+            photo = BitmapFactory.decodeStream(inputStream);
         }
         return photo;
     }
@@ -93,4 +136,6 @@ public class ContactUtils {
 
         return phoneContactID;
     }
+
+
 }

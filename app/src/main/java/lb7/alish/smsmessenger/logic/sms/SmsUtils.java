@@ -5,7 +5,6 @@ import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.Telephony;
 import android.telephony.SmsManager;
@@ -38,8 +37,9 @@ public class SmsUtils {
                 String messageText = cursor.getString(cursor.getColumnIndexOrThrow("body"));
                 String contact = cursor.getString(cursor.getColumnIndexOrThrow("address"));
                 String date = cursor.getString(cursor.getColumnIndexOrThrow("date"));
-                Bitmap bit_thumb = ContactUtils.retrieveContactPhoto(MyApplication.getContext(), contact);
-
+                //1 phone number
+                //2
+                String photoURI = ContactUtils.getContactPhotoURI(MyApplication.getContext(), contact);
                 DirectionType directionType;
                 if (cursor.getString(cursor.getColumnIndexOrThrow("type"))
                         .contains(Telephony.Sms.MESSAGE_TYPE_INBOX + "")) {
@@ -49,7 +49,7 @@ public class SmsUtils {
                 }
 
                 mMessages.add(new MessageInfo(messageText.replaceAll("\\n", " "), contact, date
-                        , /*ContactUtils.contactName(contact)*/"", directionType, bit_thumb));
+                        , /*ContactUtils.contactName(contact)*/"", directionType, photoURI));
                 // use msgData
             } while (cursor.moveToNext());
             cursor.close();
@@ -68,7 +68,7 @@ public class SmsUtils {
             do {
                 String messageText = cursor.getString(cursor.getColumnIndexOrThrow("body"));
                 String date = cursor.getString(cursor.getColumnIndexOrThrow("date"));
-                Bitmap bit_thumb = ContactUtils.retrieveContactPhoto(MyApplication.getContext(), contact);
+                String photoURI = ContactUtils.getContactPhotoURI(MyApplication.getContext(), contact);
                 DirectionType directionType;
                 if (cursor.getString(cursor.getColumnIndexOrThrow("type")).contains("1")) {
                     directionType = DirectionType.INPUT;
@@ -77,7 +77,7 @@ public class SmsUtils {
                 }
 
                 mMessages.add(new MessageInfo(messageText, contact, date
-                        , /*ContactUtils.contactName(contact)*/"", directionType, bit_thumb));
+                        , /*ContactUtils.contactName(contact)*/"", directionType, photoURI));
                 // use msgData
             } while (cursor.moveToNext());
             cursor.close();

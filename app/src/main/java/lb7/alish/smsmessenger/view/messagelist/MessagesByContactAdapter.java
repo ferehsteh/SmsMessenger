@@ -17,11 +17,15 @@ import lb7.alish.smsmessenger.R;
 public class MessagesByContactAdapter extends RecyclerView.Adapter<MessageViewHolder> {
 
     private ArrayList<MessageInfo> mMessageInfos;
+    private ArrayList<MessageInfo> messageInfo;
     private Activity mActivity;
+    private CustomFilter filter;
+    private ArrayList<MessageInfo> mContactFilter;
 
     public MessagesByContactAdapter(Activity activity, ArrayList<MessageInfo> messageInfos) {
         mMessageInfos = messageInfos;
         mActivity = activity;
+        filter = new CustomFilter(messageInfos, this);
     }
 
     @Override
@@ -40,5 +44,16 @@ public class MessagesByContactAdapter extends RecyclerView.Adapter<MessageViewHo
     public int getItemCount() {
         return mMessageInfos.size();
     }
+
+    // set adapter filtered list
+    public void setList(ArrayList<MessageInfo> list) {
+        this.mContactFilter = list;
+    }
+
+    //call when you want to filter
+    public void filterList(String text) {
+        filter.filter(text);
+    }
+
 
 }
