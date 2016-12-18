@@ -73,6 +73,7 @@ public class MessageListFragment extends Fragment {
                 adapter.notifyDataSetChanged();
                 return false;
             }
+
         });
         super.onCreateOptionsMenu(menu, menuInflater);
     }
