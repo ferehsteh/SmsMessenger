@@ -10,9 +10,12 @@ import android.widget.ImageView;
 import android.widget.QuickContactBadge;
 import android.widget.TextView;
 
+import java.io.FileNotFoundException;
+
 import lb7.alish.smsmessenger.MyApplication;
 import lb7.alish.smsmessenger.R;
 import lb7.alish.smsmessenger.logic.contacts.ContactUtils;
+import lb7.alish.smsmessenger.view.contacts.ContactInfo;
 import lb7.alish.smsmessenger.view.conversation.ConversationActivity;
 import lb7.alish.smsmessenger.view.conversation.ConversationFragment;
 import lb7.alish.smsmessenger.view.utils.TimeUtils;
@@ -43,31 +46,25 @@ public class MessageViewHolder extends RecyclerView.ViewHolder {
 
     public void bind(final Activity activity, final MessageInfo messageInfo) {
         final String contactNumber = messageInfo.getContact();
-        if (contactNumber != null && !contactNumber.isEmpty()) {
-            mContactName.setText(ContactUtils.contactName(contactNumber));
+        ContactInfo contact = ContactUtils.getContact(contactNumber);
+        if (contact != null) {
+            mContactName.setText(contact.getName());
+
+            if (contact.getThumbnail() != null && !contact.getThumbnail().isEmpty()) {
+                try {
+                    mContactPic.setImageURI(Uri.parse(contact.getThumbnail()));
+                    throw new FileNotFoundException();
+                }  catch(FileNotFoundException ex) {
+                    mContactPic.setImageResource(R.mipmap.contact_pic);
+                }
+
+            } else {
+                mContactPic.setImageResource(R.mipmap.contact_pic);
+            }
         }
         mMessageText.setText(messageInfo.getMessageText());
         mDateText.setText(TimeUtils.getTime(Long.parseLong(messageInfo.getDate())));
-        try {
-            if (messageInfo.getImage() != null) {
-                mContactPic.setImageURI(Uri.parse(messageInfo.getImage()));
-            }
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
-//        new QuickContactHelper(activity, badge, messageInfo.getContact()).addThumbnail();
 
-        // Set image if exists
-//        try {
-//
-//            if (messageInfo.getStream() != null) {
-//                mContactPic.setImageBitmap(ContactUtils.retrieveContactPhoto(MyApplication.getContext(),messageInfo.getStream()));
-//            } else {
-//                mContactPic.setImageResource(R.mipmap.contact_pic);
-//            }
-//        } catch (OutOfMemoryError e) {
-//            e.printStackTrace();
-//        }
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

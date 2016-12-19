@@ -1,13 +1,15 @@
 package lb7.alish.smsmessenger.view.contacts;
 
 import android.app.Activity;
-import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.QuickContactBadge;
 import android.widget.TextView;
+
+import java.io.IOException;
 
 import lb7.alish.smsmessenger.R;
 import lb7.alish.smsmessenger.view.conversation.ConversationFragment;
@@ -36,33 +38,16 @@ public class ContactViewHolder extends RecyclerView.ViewHolder {
     public void bind(final Activity activity, final ContactInfo messageInfo) {
         mNameText.setText(messageInfo.getName());
         mNumberText.setText(messageInfo.getPhoneNumber());
-        // Set image if exists
-//        if (messageInfo.getThumbnail() != null) {
-//            try {
-//                mContactPic.setImageBitmap(MediaStore.Images.Media.getBitmap(MyApplication.getContext().getContentResolver(), Uri.parse(messageInfo.getThumbnail())));
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//        if(messageInfo.getThumbnail()!=null){
-//            mContactPic.setImageURI(Uri.parse(messageInfo.getThumbnail()));
-//        }
-
-        if (messageInfo.getStream() != null) {
-
-            mContactPic.setImageBitmap(BitmapFactory.decodeStream(messageInfo.getStream()));
+        if (messageInfo.getThumbnail() != null && !messageInfo.getThumbnail().isEmpty()) {
+            try {
+                mContactPic.setImageURI(Uri.parse(messageInfo.getThumbnail()));
+            } catch (Exception e) {
+                mContactPic.setImageResource(R.mipmap.contact_pic);
+            }
+        }else {
+            mContactPic.setImageResource(R.mipmap.contact_pic);
         }
 
-
-//        try {
-//            if (messageInfo.getThumbnail() != null) {
-//                mContactPic.setImageBitmap(ContactUtils.retrieveContactPhoto(MyApplication.getContext(),messageInfo.getStream()));
-//            } else {
-//                mContactPic.setImageResource(R.mipmap.contact_pic);
-//            }
-//        } catch (OutOfMemoryError e) {
-//            e.printStackTrace();
-//        }
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

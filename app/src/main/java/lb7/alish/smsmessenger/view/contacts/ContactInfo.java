@@ -14,11 +14,11 @@ public class ContactInfo {
     private String mThumbnailURI;
     private InputStream mStream;
 
-    public ContactInfo(String name, String phoneNumber, String thumbnailUri, InputStream stream) {
+    public ContactInfo(String name, String phoneNumber, String thumbnailUri) {
         mName = name;
         mPhoneNumber = phoneNumber;
         mThumbnailURI = thumbnailUri;
-        mStream = stream;
+//        mStream = stream;
     }
 
     public String getName() {
@@ -33,11 +33,7 @@ public class ContactInfo {
         return mThumbnailURI;
     }
 
-    public void setThumbnail(String thumbnailUri) {
-        this.mThumbnailURI = thumbnailUri;
-    }
-
-    public InputStream getStream() {
-        return mStream;
-    }
+//    public InputStream getStream() {
+//        return mStream;
+//    }
 }

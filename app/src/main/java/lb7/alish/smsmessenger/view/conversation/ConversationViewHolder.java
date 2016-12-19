@@ -1,7 +1,9 @@
 package lb7.alish.smsmessenger.view.conversation;
 
+import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
@@ -22,21 +24,21 @@ public class ConversationViewHolder extends RecyclerView.ViewHolder {
 
     public ConversationViewHolder(View view) {
         super(view);
-        mMessageText = (TextView) view.findViewById(R.id.messageTextView);
-        mDateText = (TextView) view.findViewById(R.id.dateTextView);
+        mMessageText = (TextView) view.findViewById(R.id.msgr);
+//        mDateText = (TextView) view.findViewById(R.id.dateTextView);
         itemView = view;
     }
 
     public void bind(MessageInfo messageInfo) {
-        switch (messageInfo.getDirectionType()) {
-            case INPUT:
-                itemView.setBackgroundColor(ContextCompat.getColor(MyApplication.getContext(), R.color.input_color));
-                break;
-            case OUTPUT:
-                itemView.setBackgroundColor(ContextCompat.getColor(MyApplication.getContext(), R.color.output_color));
-                break;
-        }
+//        switch (messageInfo.getDirectionType()) {
+//            case INPUT:
+//                itemView.setBackgroundColor(ContextCompat.getColor(MyApplication.getContext(), R.color.input_color));
+//                break;
+//            case OUTPUT:
+//                itemView.setBackgroundColor(ContextCompat.getColor(MyApplication.getContext(), R.color.output_color));
+//                break;
+//        }
         mMessageText.setText(messageInfo.getMessageText());
-        mDateText.setText(TimeUtils.getTimeForConversations(Long.parseLong(messageInfo.getDate())));
+//        mDateText.setText(TimeUtils.getTimeForConversations(Long.parseLong(messageInfo.getDate())));
     }
 }

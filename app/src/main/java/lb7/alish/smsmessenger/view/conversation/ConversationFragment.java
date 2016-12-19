@@ -118,7 +118,9 @@ public class ConversationFragment extends Fragment {
                 String message = messageEditView.getText().toString();
                 if (!message.isEmpty()) {
                     SmsUtils.sendMessage(mParty, message, selectedSim);
-                    recyclerView.setAdapter(new ConversationAdapter(SmsUtils.readSmsByContact(mParty)));
+                    ConversationAdapter adapter = new ConversationAdapter(SmsUtils.readSmsByContact(mParty));
+                    recyclerView.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
                     messageEditView.setText("");
                     InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(messageEditView.getWindowToken(), 0);

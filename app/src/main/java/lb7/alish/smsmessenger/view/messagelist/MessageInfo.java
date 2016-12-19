@@ -13,18 +13,18 @@ public class MessageInfo {
     private String mDisplayName;
     private DirectionType mDirectionType;
     private String mDate;
-    private MessageState mMessageState;
-    private String mImage;
+//    private MessageState mMessageState;
+//    private String mImage;
 
 
     public MessageInfo(String message, String contact, String date, String displayName, DirectionType directionType
-            /*, MessageState messageState*/, String image) {
+            /*, MessageState messageState, String image*/) {
         mMessageText = message;
         mContact = contact;
         mDirectionType = directionType;
         mDate = date;
         mDisplayName = displayName;
-        mImage = image;
+//        mImage = image;
         //mMessageState = messageState;
     }
 
@@ -48,15 +48,15 @@ public class MessageInfo {
         return mDisplayName;
     }
 
-    public MessageState getMessageState() {
-        return mMessageState;
-    }
-
-    public String getImage() {
-        return mImage;
-    }
-
-    public void setImage(String image) {
-        this.mImage = image;
-    }
+//    public MessageState getMessageState() {
+//        return mMessageState;
+//    }
+//
+//    public String getImage() {
+//        return mImage;
+//    }
+//
+//    public void setImage(String image) {
+//        this.mImage = image;
+//    }
 }

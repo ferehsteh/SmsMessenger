@@ -14,7 +14,6 @@ import java.util.ArrayList;
 
 import lb7.alish.smsmessenger.MyApplication;
 import lb7.alish.smsmessenger.logic.DirectionType;
-import lb7.alish.smsmessenger.logic.contacts.ContactUtils;
 import lb7.alish.smsmessenger.view.messagelist.MessageInfo;
 
 /**
@@ -39,7 +38,7 @@ public class SmsUtils {
                 String date = cursor.getString(cursor.getColumnIndexOrThrow("date"));
                 //1 phone number
                 //2
-                String photoURI = ContactUtils.getContactPhotoURI(MyApplication.getContext(), contact);
+//                String photoURI = ContactUtils.getContactPhotoURI(MyApplication.getContext(), contact);
                 DirectionType directionType;
                 if (cursor.getString(cursor.getColumnIndexOrThrow("type"))
                         .contains(Telephony.Sms.MESSAGE_TYPE_INBOX + "")) {
@@ -49,7 +48,7 @@ public class SmsUtils {
                 }
 
                 mMessages.add(new MessageInfo(messageText.replaceAll("\\n", " "), contact, date
-                        , /*ContactUtils.contactName(contact)*/"", directionType, photoURI));
+                        , /*ContactUtils.contactName(contact)*/"", directionType));
                 // use msgData
             } while (cursor.moveToNext());
             cursor.close();
@@ -68,7 +67,7 @@ public class SmsUtils {
             do {
                 String messageText = cursor.getString(cursor.getColumnIndexOrThrow("body"));
                 String date = cursor.getString(cursor.getColumnIndexOrThrow("date"));
-                String photoURI = ContactUtils.getContactPhotoURI(MyApplication.getContext(), contact);
+//                String photoURI = ContactUtils.getContactPhotoURI(MyApplication.getContext(), contact);
                 DirectionType directionType;
                 if (cursor.getString(cursor.getColumnIndexOrThrow("type")).contains("1")) {
                     directionType = DirectionType.INPUT;
@@ -77,7 +76,7 @@ public class SmsUtils {
                 }
 
                 mMessages.add(new MessageInfo(messageText, contact, date
-                        , /*ContactUtils.contactName(contact)*/"", directionType, photoURI));
+                        , /*ContactUtils.contactName(contact)*/"", directionType));
                 // use msgData
             } while (cursor.moveToNext());
             cursor.close();

@@ -9,7 +9,6 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.ContactsContract;
 
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Random;
@@ -51,26 +50,46 @@ public class ContactUtils {
                 String name = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
                 String phoneNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
                 //1
-                String photoUri = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.PHOTO_THUMBNAIL_URI));
+                String photoUri = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.PHOTO_URI));
                 //2
-                InputStream inputStream = null;
-                try {
-                    if (photoUri != null) {
-                        inputStream = cr.openInputStream(Uri.parse(photoUri));
-                    }
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
+//                InputStream inputStream = null;
+//                try {
+//                    if (photoUri != null) {
+//                        inputStream = cr.openInputStream(Uri.parse(photoUri));
+//                    }
+//                } catch (FileNotFoundException e) {
+//                    e.printStackTrace();
+//                }
                 //3
 //                InputStream inputStream = ContactsContract.Contacts.openContactPhotoInputStream(cr,
 //                        ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI,
 //                                new Long(phones.getLong(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.CONTACT_ID)))));
-                contactInfos.add(new ContactInfo(name, phoneNumber, photoUri, inputStream));
+                contactInfos.add(new ContactInfo(name, phoneNumber, photoUri));
             } while (phones.moveToNext());
             phones.close();
         }
 
         return contactInfos;
+    }
+
+    public static ContactInfo getContact(String phoneNumber) {
+        String contactName = phoneNumber;
+        ContactInfo contactInfo = new ContactInfo(phoneNumber, phoneNumber, null);
+        ContentResolver cr = MyApplication.getContext().getContentResolver();
+        Uri uri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(phoneNumber));
+        Cursor cursor = cr.query(uri, new String[]{ContactsContract.PhoneLookup.DISPLAY_NAME
+                , ContactsContract.PhoneLookup.PHOTO_URI}, null, null, null);
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                contactName = cursor.getString(cursor.getColumnIndex(ContactsContract.PhoneLookup.DISPLAY_NAME));
+                String photoUri = cursor.getString(cursor.getColumnIndex(ContactsContract.PhoneLookup.PHOTO_URI));
+                contactInfo = new ContactInfo(contactName, phoneNumber, photoUri);
+
+            }
+            cursor.close();
+        }
+
+        return contactInfo;
     }
 
     public static String getContactPhotoURI(Context context, String phoneNumber) {
