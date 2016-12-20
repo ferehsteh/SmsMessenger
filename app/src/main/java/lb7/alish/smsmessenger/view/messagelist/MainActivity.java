@@ -96,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 super.onBackPressed();
+                UiUtils.startFragment(this, new MessageListFragment());
                 break;
             case R.id.action_call:
 
@@ -107,6 +108,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        UiUtils.startFragment(this, new MessageListFragment());
     }
 
 }

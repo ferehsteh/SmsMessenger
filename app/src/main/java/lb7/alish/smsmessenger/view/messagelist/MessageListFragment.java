@@ -99,6 +99,7 @@ public class MessageListFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+//        toolbar.setTitle("Title");
 //        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("AAAA");
 //        toolbar.setSubtitle("AAAA");
 
