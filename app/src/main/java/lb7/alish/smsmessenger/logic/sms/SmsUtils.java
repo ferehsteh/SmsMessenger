@@ -36,6 +36,7 @@ public class SmsUtils {
                 String messageText = cursor.getString(cursor.getColumnIndexOrThrow("body"));
                 String contact = cursor.getString(cursor.getColumnIndexOrThrow("address"));
                 String date = cursor.getString(cursor.getColumnIndexOrThrow("date"));
+                long cid = cursor.getLong(cursor.getColumnIndex("_id"));
                 //1 phone number
                 //2
 //                String photoURI = ContactUtils.getContactPhotoURI(MyApplication.getContext(), contact);
@@ -48,7 +49,7 @@ public class SmsUtils {
                 }
 
                 mMessages.add(new MessageInfo(messageText.replaceAll("\\n", " "), contact, date
-                        , /*ContactUtils.contactName(contact)*/"", directionType));
+                        , /*ContactUtils.contactName(contact)*/"", directionType, cid));
                 // use msgData
             } while (cursor.moveToNext());
             cursor.close();
@@ -67,6 +68,7 @@ public class SmsUtils {
             do {
                 String messageText = cursor.getString(cursor.getColumnIndexOrThrow("body"));
                 String date = cursor.getString(cursor.getColumnIndexOrThrow("date"));
+                long cid = cursor.getLong(cursor.getColumnIndex("_id"));
 //                String photoURI = ContactUtils.getContactPhotoURI(MyApplication.getContext(), contact);
                 DirectionType directionType;
                 if (cursor.getString(cursor.getColumnIndexOrThrow("type")).contains("1")) {
@@ -76,7 +78,7 @@ public class SmsUtils {
                 }
 
                 mMessages.add(new MessageInfo(messageText, contact, date
-                        , /*ContactUtils.contactName(contact)*/"", directionType));
+                        , /*ContactUtils.contactName(contact)*/"", directionType, cid));
                 // use msgData
             } while (cursor.moveToNext());
             cursor.close();
@@ -87,7 +89,6 @@ public class SmsUtils {
     public static void sendMessage(String phoneNumber, String message, int simId) {
         if (simId == 1) {
             SmsManager sms = SmsManager.getDefault();
-
             String DELIVERED = "SMS_DELIVERED";
             BroadcastReceiver deliveryBroadcastReceiver = new DeliverReceiver();
             PendingIntent deliveredPI = PendingIntent.getBroadcast(MyApplication.getContext(), 0, new Intent(DELIVERED), 0);
@@ -98,6 +99,20 @@ public class SmsUtils {
             Toast.makeText(MyApplication.getContext(), "Dual Sim is not supported yet", Toast.LENGTH_SHORT).show();
         }
     }
+
+    public static boolean deleteSms(String smsId) {
+        boolean isSmsDeleted = false;
+        try {
+            MyApplication.getContext().getContentResolver().delete(
+                    Uri.parse("content://sms/inbox/" + smsId), null, null);
+            isSmsDeleted = true;
+
+        } catch (Exception ex) {
+            isSmsDeleted = false;
+        }
+        return isSmsDeleted;
+    }
+
 
 
 }

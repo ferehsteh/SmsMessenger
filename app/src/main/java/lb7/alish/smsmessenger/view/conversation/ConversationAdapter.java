@@ -1,6 +1,6 @@
 package lb7.alish.smsmessenger.view.conversation;
 
-import android.support.v4.content.ContextCompat;
+import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
-import lb7.alish.smsmessenger.MyApplication;
 import lb7.alish.smsmessenger.R;
 import lb7.alish.smsmessenger.view.messagelist.MessageInfo;
 
@@ -18,9 +17,11 @@ import lb7.alish.smsmessenger.view.messagelist.MessageInfo;
 
 public class ConversationAdapter extends RecyclerView.Adapter<ConversationViewHolder> {
     private ArrayList<MessageInfo> mMessageInfos;
+    private Activity mActivity;
 
-    public ConversationAdapter(ArrayList<MessageInfo> messageInfos) {
+    public ConversationAdapter(Activity activity, ArrayList<MessageInfo> messageInfos) {
         mMessageInfos = messageInfos;
+        mActivity = activity;
     }
 
     @Override
@@ -49,7 +50,7 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationViewHo
     @Override
     public void onBindViewHolder(final ConversationViewHolder holder, int position) {
         final int itemType = getItemViewType(position);
-        holder.bind(mMessageInfos.get(position));
+        holder.bind(mActivity, mMessageInfos.get(position));
     }
 
     @Override

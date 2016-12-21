@@ -5,4 +5,7 @@
     <string name="contact_title">ContactList</string>
     <string name="new_title">NewMessage</string>
     <string name="search_hint">search</string>
+    <string name="deleteSMS">The Message will be deleted.</string>
+    <string name="delete">Delete</string>
+    <string name="cancel">Cancel</string>
 </resources>

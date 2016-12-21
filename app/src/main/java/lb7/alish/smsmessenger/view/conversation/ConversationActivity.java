@@ -43,7 +43,7 @@ public class ConversationActivity extends AppCompatActivity {
 
         final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, true));
-        recyclerView.setAdapter(new ConversationAdapter(SmsUtils.readSmsByContact(mParty)));
+        recyclerView.setAdapter(new ConversationAdapter(this, SmsUtils.readSmsByContact(mParty)));
         Button sendButton = (Button) findViewById(R.id.send_button);
         final Button simCardButton = (Button) findViewById(R.id.sim_card_button);
         boolean isDualSim = SimCardUtils.isDualSim();
@@ -76,7 +76,7 @@ public class ConversationActivity extends AppCompatActivity {
                 String message = messageEditView.getText().toString();
                 if (!message.isEmpty()) {
                     SmsUtils.sendMessage(mParty, message, selectedSim);
-                    recyclerView.setAdapter(new ConversationAdapter(SmsUtils.readSmsByContact(mParty)));
+                    recyclerView.setAdapter(new ConversationAdapter(ConversationActivity.this, SmsUtils.readSmsByContact(mParty)));
                     messageEditView.setText("");
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(messageEditView.getWindowToken(), 0);

@@ -126,7 +126,13 @@ public class ConversationFragment extends Fragment {
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, true));
         messageInfos = SmsUtils.readSmsByContact(mParty);
-        recyclerView.setAdapter(new ConversationAdapter(messageInfos));
+        recyclerView.setAdapter(new ConversationAdapter(getActivity(), messageInfos));
+//        recyclerView.setOnLongClickListener(new View.OnLongClickListener() {
+//            @Override
+//            public boolean onLongClick(View v) {
+//                return false;
+//            }
+//        });
         Button sendButton = (Button) view.findViewById(R.id.send_button);
         final Button simCardButton = (Button) view.findViewById(R.id.sim_card_button);
         toolbar = (Toolbar) view.findViewById(R.id.toolbar);
@@ -174,7 +180,7 @@ public class ConversationFragment extends Fragment {
                 if (!message.isEmpty()) {
                     SmsUtils.sendMessage(mParty, message, selectedSim);
                     messageInfos = SmsUtils.readSmsByContact(mParty);
-                    ConversationAdapter adapter = new ConversationAdapter(messageInfos);
+                    ConversationAdapter adapter = new ConversationAdapter(getActivity(), messageInfos);
                     recyclerView.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
                     messageEditView.setText("");
