@@ -39,7 +39,9 @@ public class ConversationViewHolder extends RecyclerView.ViewHolder {
 //                itemView.setBackgroundColor(ContextCompat.getColor(MyApplication.getContext(), R.color.output_color));
 //                break;
 //        }
-        mMessageText.setText(messageInfo.getMessageText() + "\r \n" + TimeUtils.getTimeForConversations(Long.parseLong(messageInfo.getDate())));
+//        final Typeface tf  = Typeface.createFromAsset(activity.getAssets(),"BMitraBd.ttf");
+//        mMessageText.setTypeface(tf);
+        mMessageText.setText(messageInfo.getMessageText() + "\r \n \n" + TimeUtils.getTimeForConversations(Long.parseLong(messageInfo.getDate())));
 //        mDateText.setText(TimeUtils.getTimeForConversations(Long.parseLong(messageInfo.getDate())));
         mMessageText.setOnLongClickListener(new View.OnLongClickListener() {
             @Override

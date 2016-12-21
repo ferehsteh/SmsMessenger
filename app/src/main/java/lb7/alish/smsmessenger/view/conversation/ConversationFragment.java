@@ -29,7 +29,6 @@ import lb7.alish.smsmessenger.logic.SimCardUtils;
 import lb7.alish.smsmessenger.logic.pref.AppPref;
 import lb7.alish.smsmessenger.logic.sms.SmsUtils;
 import lb7.alish.smsmessenger.view.messagelist.MessageInfo;
-import lb7.alish.smsmessenger.view.messagelist.MessagesByContactAdapter;
 
 public class ConversationFragment extends Fragment {
 
@@ -81,7 +80,8 @@ public class ConversationFragment extends Fragment {
                         filteredList.add(messageInfos.get(i));
                     }
                 }
-                MessagesByContactAdapter adapter = new MessagesByContactAdapter(getActivity(), filteredList);
+
+                ConversationAdapter adapter = new ConversationAdapter(getActivity(), filteredList);
                 recyclerView.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
                 return false;

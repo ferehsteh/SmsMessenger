@@ -68,6 +68,7 @@ public class SmsUtils {
             do {
                 String messageText = cursor.getString(cursor.getColumnIndexOrThrow("body"));
                 String date = cursor.getString(cursor.getColumnIndexOrThrow("date"));
+
                 long cid = cursor.getLong(cursor.getColumnIndex("_id"));
 //                String photoURI = ContactUtils.getContactPhotoURI(MyApplication.getContext(), contact);
                 DirectionType directionType;
@@ -104,7 +105,7 @@ public class SmsUtils {
         boolean isSmsDeleted = false;
         try {
             MyApplication.getContext().getContentResolver().delete(
-                    Uri.parse("content://sms/inbox/" + smsId), null, null);
+                    Uri.parse("content://sms/" + smsId), null, null);
             isSmsDeleted = true;
 
         } catch (Exception ex) {

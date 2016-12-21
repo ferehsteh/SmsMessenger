@@ -47,6 +47,10 @@ public class MessageViewHolder extends RecyclerView.ViewHolder {
     public void bind(final Activity activity, final MessageInfo messageInfo) {
         final String contactNumber = messageInfo.getContact();
         ContactInfo contact = ContactUtils.getContact(contactNumber);
+//        final Typeface tf  = Typeface.createFromAsset(activity.getAssets(),"BMitraBd.ttf");
+//        mMessageText.setTypeface(tf);
+//        mContactName.setTypeface(tf);
+//        mDateText.setTypeface(tf);
         if (contact != null) {
             mContactName.setText(contact.getName());
 
