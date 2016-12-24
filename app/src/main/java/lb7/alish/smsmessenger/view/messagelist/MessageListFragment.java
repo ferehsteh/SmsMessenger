@@ -1,12 +1,17 @@
 package lb7.alish.smsmessenger.view.messagelist;
 
 import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.Fragment;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Telephony;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -102,6 +107,7 @@ public class MessageListFragment extends Fragment {
 //        toolbar.setTitle("Title");
 //        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("AAAA");
 //        toolbar.setSubtitle("AAAA");
+        ChangeDefaultApp();
 
 
         return view;
@@ -137,6 +143,37 @@ public class MessageListFragment extends Fragment {
                 UiUtils.addFragmentToBackStack(getActivity(), new ContactListFragment());
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    private void ChangeDefaultApp() {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+            if (!Telephony.Sms.getDefaultSmsPackage(getActivity()).equals(MainActivity.PACKAGE_NAME)) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setMessage("This app is not set as your default messaging app. Do you want to set it as default?")
+                        .setCancelable(false)
+                        .setTitle("Alert!")
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @TargetApi(19)
+                            public void onClick(DialogInterface dialog, int id) {
+                                Intent intent = new Intent(Telephony.Sms.Intents.ACTION_CHANGE_DEFAULT);
+                                intent.putExtra(Telephony.Sms.Intents.EXTRA_PACKAGE_NAME, getActivity().getPackageName());
+                                startActivity(intent);
+                            }
+                        });
+                builder.show();
+            }
+        }
     }
 
 

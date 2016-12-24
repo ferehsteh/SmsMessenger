@@ -41,8 +41,8 @@ public class ConversationViewHolder extends RecyclerView.ViewHolder {
 //        }
 //        final Typeface tf  = Typeface.createFromAsset(activity.getAssets(),"BMitraBd.ttf");
 //        mMessageText.setTypeface(tf);
+        //        mDateText.setText(TimeUtils.getTimeForConversations(Long.parseLong(messageInfo.getDate())));
         mMessageText.setText(messageInfo.getMessageText() + "\r \n \n" + TimeUtils.getTimeForConversations(Long.parseLong(messageInfo.getDate())));
-//        mDateText.setText(TimeUtils.getTimeForConversations(Long.parseLong(messageInfo.getDate())));
         mMessageText.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -58,6 +58,7 @@ public class ConversationViewHolder extends RecyclerView.ViewHolder {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
+                        getAdapterPosition();
                     }
                 });
                 alert.create();
@@ -65,5 +66,9 @@ public class ConversationViewHolder extends RecyclerView.ViewHolder {
                 return false;
             }
         });
+
     }
+
+
 }
+

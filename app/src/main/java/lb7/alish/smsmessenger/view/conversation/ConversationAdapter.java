@@ -50,11 +50,19 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationViewHo
     @Override
     public void onBindViewHolder(final ConversationViewHolder holder, int position) {
         final int itemType = getItemViewType(position);
-        holder.bind(mActivity, mMessageInfos.get(position));
+        MessageInfo messageInfo = mMessageInfos.get(position);
+        holder.bind(mActivity, messageInfo);
     }
 
     @Override
     public int getItemCount() {
         return mMessageInfos.size();
     }
+
+
+    public void remove(int position) {
+        mMessageInfos.remove(position);
+        notifyItemRemoved(position);
+    }
+
 }
