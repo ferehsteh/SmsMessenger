@@ -38,6 +38,7 @@ public class ConversationFragment extends Fragment {
     private String mParty = null;
     private Toolbar toolbar;
     private RecyclerView recyclerView;
+    private ConversationAdapter adapter;
 
     @Override
     public void onResume() {
@@ -81,7 +82,7 @@ public class ConversationFragment extends Fragment {
                     }
                 }
 
-                ConversationAdapter adapter = new ConversationAdapter(getActivity(), filteredList);
+                adapter = new ConversationAdapter(getActivity(), filteredList);
                 recyclerView.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
                 return false;
@@ -126,7 +127,7 @@ public class ConversationFragment extends Fragment {
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, true));
         messageInfos = SmsUtils.readSmsByContact(mParty);
-        ConversationAdapter adapter = new ConversationAdapter(getActivity(), messageInfos);
+        adapter = new ConversationAdapter(getActivity(), messageInfos);
         recyclerView.setAdapter(adapter);
         Button sendButton = (Button) view.findViewById(R.id.send_button);
         final Button simCardButton = (Button) view.findViewById(R.id.sim_card_button);
@@ -175,9 +176,10 @@ public class ConversationFragment extends Fragment {
                 if (!message.isEmpty()) {
                     SmsUtils.sendMessage(mParty, message, selectedSim);
                     messageInfos = SmsUtils.readSmsByContact(mParty);
-                    ConversationAdapter adapter = new ConversationAdapter(getActivity(), messageInfos);
+                    adapter = new ConversationAdapter(getActivity(), messageInfos);
                     recyclerView.setAdapter(adapter);
-                    adapter.notifyDataSetChanged();
+//                    MessageInfo messageInfo = new MessageInfo(message, mParty, DateFormat.getDateTimeInstance().format(new Date()),"", DirectionType.OUTPUT, 0l);
+//                    displayMessage(messageInfo);
                     messageEditView.setText("");
                     InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(messageEditView.getWindowToken(), 0);
@@ -191,6 +193,11 @@ public class ConversationFragment extends Fragment {
     private void makeCall(String phone) {
         Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phone, null));
         startActivity(intent);
+    }
+
+    public void displayMessage(MessageInfo message) {
+        adapter.add(message);
+        adapter.notifyDataSetChanged();
     }
 
 }
