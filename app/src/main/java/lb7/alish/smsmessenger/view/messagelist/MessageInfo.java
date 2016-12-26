@@ -1,6 +1,7 @@
 package lb7.alish.smsmessenger.view.messagelist;
 
-import lb7.alish.smsmessenger.logic.DirectionType;
+
+import lb7.alish.smsmessenger.sample.provider.message.DirectionType;
 
 /**
  * Created by AliSh on 11/29/2016.

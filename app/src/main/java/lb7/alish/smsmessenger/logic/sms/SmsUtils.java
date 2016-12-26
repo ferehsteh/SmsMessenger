@@ -2,6 +2,7 @@ package lb7.alish.smsmessenger.logic.sms;
 
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
@@ -11,11 +12,13 @@ import android.telephony.SmsManager;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 import lb7.alish.smsmessenger.MyApplication;
-import lb7.alish.smsmessenger.logic.DirectionType;
+import lb7.alish.smsmessenger.sample.provider.message.DirectionType;
+import lb7.alish.smsmessenger.sample.provider.message.MessageColumns;
 import lb7.alish.smsmessenger.sample.provider.message.MessageContentValues;
+import lb7.alish.smsmessenger.sample.provider.message.MessageCursor;
+import lb7.alish.smsmessenger.sample.provider.message.MessageSelection;
 import lb7.alish.smsmessenger.view.messagelist.MainActivity;
 import lb7.alish.smsmessenger.view.messagelist.MessageInfo;
 
@@ -26,13 +29,48 @@ import lb7.alish.smsmessenger.view.messagelist.MessageInfo;
 public class SmsUtils {
 
     public static ArrayList<MessageInfo> readAllSms() {
+        ArrayList<MessageInfo> mMessages = new ArrayList<>();
+        MessageSelection where = new MessageSelection();
+        where.groupBy(MessageColumns.THREAD_ID);
+        MessageCursor cursor = where.query(MyApplication.getContext());
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                String messageText = cursor.getMessageText();
+                String contact = cursor.getNumber();
+                String date = cursor.getDate();
+                long cid = cursor.getId();
+                DirectionType directionType = cursor.getType();
+                mMessages.add(new MessageInfo(messageText.replaceAll("\\n", " "), contact, date, "", directionType, cid));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return mMessages;
+    }
+
+    public static ArrayList<MessageInfo> readSmsByContact(String contact) {
+        ArrayList<MessageInfo> mMessages = new ArrayList<>();
+        MessageSelection where = new MessageSelection();
+        where.number(contact);
+        MessageCursor cursor = where.query(MyApplication.getContext());
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                String messageText = cursor.getMessageText();
+                String date = cursor.getDate();
+                long cid = cursor.getId();
+                DirectionType directionType = cursor.getType();
+                mMessages.add(new MessageInfo(messageText.replaceAll("\\n", " "), contact, date, "", directionType, cid));
+            } while (cursor.moveToNext());
+            cursor.close();
+        }
+        return mMessages;
+    }
+
+    public static ArrayList<MessageInfo> readAllSms1() {
         Cursor cursor = MyApplication.getContext().getContentResolver().query(Uri.parse("content://sms")
                 , null
                 , "address IS NOT NULL) GROUP BY (thread_id"
                 , null
                 , null);
-
-
         ArrayList<MessageInfo> mMessages = new ArrayList<>();
         if (cursor != null && cursor.moveToFirst()) { // must check the result to prevent exception
             do {
@@ -54,17 +92,13 @@ public class SmsUtils {
                 mMessages.add(new MessageInfo(messageText.replaceAll("\\n", " "), contact, date
                         , /*ContactUtils.contactName(contact)*/"", directionType, cid));
                 // use msgData
-                //TODO insert by new change
-                MessageContentValues values = new MessageContentValues();
-                values.putMessageText(messageText.replaceAll("\\n", " ")).putNumber(contact).putStatus("").putType(lb7.alish.smsmessenger.sample.provider.message.DirectionType.INPUT).putDate(new Date());
-                values.insert(MyApplication.getContext());
             } while (cursor.moveToNext());
             cursor.close();
         }
         return mMessages;
     }
 
-    public static ArrayList<MessageInfo> readSmsByContact(String contact) {
+    public static ArrayList<MessageInfo> readSmsByContact1(String contact) {
         Cursor cursor = MyApplication.getContext().getContentResolver().query(Uri.parse("content://sms/")
                 , null
                 , "address = '" + contact + "'"
@@ -131,6 +165,47 @@ public class SmsUtils {
             }
         }
         return isSmsDeleted;
+    }
+
+    public static void printDb(Context context) {
+        MessageSelection where = new MessageSelection();
+        MessageCursor cCursor = where.query(context);
+        if (cCursor.moveToFirst()) {
+            do {
+                String db = "";
+                for (int i = 0; i < cCursor.getColumnCount(); i++) {
+                    db += cCursor.getColumnName(i) + " <" + cCursor.getString(i) + "> ";
+                    System.out.println(db);
+                }
+            } while (cCursor.moveToNext());
+        }
+        cCursor.close();
+    }
+
+    public static void copyAllSms() {
+        Cursor cursor = MyApplication.getContext().getContentResolver().query(Uri.parse("content://sms"), null, "address IS NOT NULL", null, null);
+        if (cursor != null && cursor.moveToFirst()) { // must check the result to prevent exception
+            do {
+                String messageText = cursor.getString(cursor.getColumnIndexOrThrow("body"));
+                String contact = cursor.getString(cursor.getColumnIndexOrThrow("address"));
+                String date = cursor.getString(cursor.getColumnIndexOrThrow("date"));
+                String status = cursor.getString(cursor.getColumnIndexOrThrow("status"));
+                String thread_id = cursor.getString(cursor.getColumnIndexOrThrow("thread_id"));
+                String cid = cursor.getString(cursor.getColumnIndex("_id"));
+                DirectionType directionType;
+                if (cursor.getString(cursor.getColumnIndexOrThrow("type"))
+                        .contains(Telephony.Sms.MESSAGE_TYPE_INBOX + "")) {
+                    directionType = DirectionType.INPUT;
+                } else {
+                    directionType = DirectionType.OUTPUT;
+                }
+                MessageContentValues values = new MessageContentValues();
+                values.putMessageText(messageText.replaceAll("\\n", " ")).putNumber(contact).putStatus(status)
+                        .putType(directionType).putDate(date).putSmsId(cid).putThreadId(thread_id);
+                values.insert(MyApplication.getContext());
+            } while (cursor.moveToNext());
+            cursor.close();
+        }
     }
 
 }

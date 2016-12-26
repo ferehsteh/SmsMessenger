@@ -29,8 +29,6 @@ package lb7.alish.smsmessenger.sample.provider.message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import java.util.Date;
-
 /**
  * Bean for the {@code message} table.
  */
@@ -39,7 +37,9 @@ public class MessageBean implements MessageModel {
     private long mId;
     private String mNumber;
     private String mMessageText;
-    private Date mDate;
+    private String mDate;
+    private String mThreadId;
+    private String mSmsId;
     private DirectionType mType;
     private String mStatus;
 
@@ -47,12 +47,14 @@ public class MessageBean implements MessageModel {
      * Instantiate a new MessageBean with specified values.
      */
     @NonNull
-    public static MessageBean newInstance(long id, @Nullable String number, @Nullable String messageText, @Nullable Date date, @Nullable DirectionType type, @Nullable String status) {
+    public static MessageBean newInstance(long id, @Nullable String number, @Nullable String messageText, @Nullable String date, @Nullable String threadId, @Nullable String smsId, @Nullable DirectionType type, @Nullable String status) {
         MessageBean res = new MessageBean();
         res.mId = id;
         res.mNumber = number;
         res.mMessageText = messageText;
         res.mDate = date;
+        res.mThreadId = threadId;
+        res.mSmsId = smsId;
         res.mType = type;
         res.mStatus = status;
         return res;
@@ -68,6 +70,8 @@ public class MessageBean implements MessageModel {
         res.mNumber = from.getNumber();
         res.mMessageText = from.getMessageText();
         res.mDate = from.getDate();
+        res.mThreadId = from.getThreadId();
+        res.mSmsId = from.getSmsId();
         res.mType = from.getType();
         res.mStatus = from.getStatus();
         return res;
@@ -134,7 +138,7 @@ public class MessageBean implements MessageModel {
      */
     @Nullable
     @Override
-    public Date getDate() {
+    public String getDate() {
         return mDate;
     }
 
@@ -142,8 +146,44 @@ public class MessageBean implements MessageModel {
      * Set the {@code date} value.
      * Can be {@code null}.
      */
-    public void setDate(@Nullable Date date) {
+    public void setDate(@Nullable String date) {
         mDate = date;
+    }
+
+    /**
+     * Get the {@code thread_id} value.
+     * Can be {@code null}.
+     */
+    @Nullable
+    @Override
+    public String getThreadId() {
+        return mThreadId;
+    }
+
+    /**
+     * Set the {@code thread_id} value.
+     * Can be {@code null}.
+     */
+    public void setThreadId(@Nullable String threadId) {
+        mThreadId = threadId;
+    }
+
+    /**
+     * Get the {@code sms_id} value.
+     * Can be {@code null}.
+     */
+    @Nullable
+    @Override
+    public String getSmsId() {
+        return mSmsId;
+    }
+
+    /**
+     * Set the {@code sms_id} value.
+     * Can be {@code null}.
+     */
+    public void setSmsId(@Nullable String smsId) {
+        mSmsId = smsId;
     }
 
     /**
@@ -228,8 +268,26 @@ public class MessageBean implements MessageModel {
          * Set the {@code date} value.
          * Can be {@code null}.
          */
-        public Builder date(@Nullable Date date) {
+        public Builder date(@Nullable String date) {
             mRes.mDate = date;
+            return this;
+        }
+
+        /**
+         * Set the {@code thread_id} value.
+         * Can be {@code null}.
+         */
+        public Builder threadId(@Nullable String threadId) {
+            mRes.mThreadId = threadId;
+            return this;
+        }
+
+        /**
+         * Set the {@code sms_id} value.
+         * Can be {@code null}.
+         */
+        public Builder smsId(@Nullable String smsId) {
+            mRes.mSmsId = smsId;
             return this;
         }
 

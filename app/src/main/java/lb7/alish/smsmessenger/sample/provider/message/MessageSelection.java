@@ -31,8 +31,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 
-import java.util.Date;
-
 import lb7.alish.smsmessenger.sample.provider.base.AbstractSelection;
 
 /**
@@ -49,7 +47,7 @@ public class MessageSelection extends AbstractSelection<MessageSelection> {
      * Query the given content resolver using this selection.
      *
      * @param contentResolver The content resolver to query.
-     * @param projection      A list of which columns to return. Passing null will return all columns, which is inefficient.
+     * @param projection A list of which columns to return. Passing null will return all columns, which is inefficient.
      * @return A {@code MessageCursor} object, which is positioned before the first entry, or null.
      */
     public MessageCursor query(ContentResolver contentResolver, String[] projection) {
@@ -68,7 +66,7 @@ public class MessageSelection extends AbstractSelection<MessageSelection> {
     /**
      * Query the given content resolver using this selection.
      *
-     * @param context    The context to use for the query.
+     * @param context The context to use for the query.
      * @param projection A list of which columns to return. Passing null will return all columns, which is inefficient.
      * @return A {@code MessageCursor} object, which is positioned before the first entry, or null.
      */
@@ -185,38 +183,33 @@ public class MessageSelection extends AbstractSelection<MessageSelection> {
         return this;
     }
 
-    public MessageSelection date(Date... value) {
+    public MessageSelection date(String... value) {
         addEquals(MessageColumns.DATE, value);
         return this;
     }
 
-    public MessageSelection dateNot(Date... value) {
+    public MessageSelection dateNot(String... value) {
         addNotEquals(MessageColumns.DATE, value);
         return this;
     }
 
-    public MessageSelection date(Long... value) {
-        addEquals(MessageColumns.DATE, value);
+    public MessageSelection dateLike(String... value) {
+        addLike(MessageColumns.DATE, value);
         return this;
     }
 
-    public MessageSelection dateAfter(Date value) {
-        addGreaterThan(MessageColumns.DATE, value);
+    public MessageSelection dateContains(String... value) {
+        addContains(MessageColumns.DATE, value);
         return this;
     }
 
-    public MessageSelection dateAfterEq(Date value) {
-        addGreaterThanOrEquals(MessageColumns.DATE, value);
+    public MessageSelection dateStartsWith(String... value) {
+        addStartsWith(MessageColumns.DATE, value);
         return this;
     }
 
-    public MessageSelection dateBefore(Date value) {
-        addLessThan(MessageColumns.DATE, value);
-        return this;
-    }
-
-    public MessageSelection dateBeforeEq(Date value) {
-        addLessThanOrEquals(MessageColumns.DATE, value);
+    public MessageSelection dateEndsWith(String... value) {
+        addEndsWith(MessageColumns.DATE, value);
         return this;
     }
 
@@ -227,6 +220,86 @@ public class MessageSelection extends AbstractSelection<MessageSelection> {
 
     public MessageSelection orderByDate() {
         orderBy(MessageColumns.DATE, false);
+        return this;
+    }
+
+    public MessageSelection threadId(String... value) {
+        addEquals(MessageColumns.THREAD_ID, value);
+        return this;
+    }
+
+    public MessageSelection threadIdNot(String... value) {
+        addNotEquals(MessageColumns.THREAD_ID, value);
+        return this;
+    }
+
+    public MessageSelection threadIdLike(String... value) {
+        addLike(MessageColumns.THREAD_ID, value);
+        return this;
+    }
+
+    public MessageSelection threadIdContains(String... value) {
+        addContains(MessageColumns.THREAD_ID, value);
+        return this;
+    }
+
+    public MessageSelection threadIdStartsWith(String... value) {
+        addStartsWith(MessageColumns.THREAD_ID, value);
+        return this;
+    }
+
+    public MessageSelection threadIdEndsWith(String... value) {
+        addEndsWith(MessageColumns.THREAD_ID, value);
+        return this;
+    }
+
+    public MessageSelection orderByThreadId(boolean desc) {
+        orderBy(MessageColumns.THREAD_ID, desc);
+        return this;
+    }
+
+    public MessageSelection orderByThreadId() {
+        orderBy(MessageColumns.THREAD_ID, false);
+        return this;
+    }
+
+    public MessageSelection smsId(String... value) {
+        addEquals(MessageColumns.SMS_ID, value);
+        return this;
+    }
+
+    public MessageSelection smsIdNot(String... value) {
+        addNotEquals(MessageColumns.SMS_ID, value);
+        return this;
+    }
+
+    public MessageSelection smsIdLike(String... value) {
+        addLike(MessageColumns.SMS_ID, value);
+        return this;
+    }
+
+    public MessageSelection smsIdContains(String... value) {
+        addContains(MessageColumns.SMS_ID, value);
+        return this;
+    }
+
+    public MessageSelection smsIdStartsWith(String... value) {
+        addStartsWith(MessageColumns.SMS_ID, value);
+        return this;
+    }
+
+    public MessageSelection smsIdEndsWith(String... value) {
+        addEndsWith(MessageColumns.SMS_ID, value);
+        return this;
+    }
+
+    public MessageSelection orderBySmsId(boolean desc) {
+        orderBy(MessageColumns.SMS_ID, desc);
+        return this;
+    }
+
+    public MessageSelection orderBySmsId() {
+        orderBy(MessageColumns.SMS_ID, false);
         return this;
     }
 

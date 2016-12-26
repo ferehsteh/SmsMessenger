@@ -29,8 +29,6 @@ package lb7.alish.smsmessenger.sample.provider.message;
 import android.database.Cursor;
 import android.support.annotation.Nullable;
 
-import java.util.Date;
-
 import lb7.alish.smsmessenger.sample.provider.base.AbstractCursor;
 
 /**
@@ -81,8 +79,30 @@ public class MessageCursor extends AbstractCursor implements MessageModel {
      */
     @Nullable
     @Override
-    public Date getDate() {
-        Date res = getDateOrNull(MessageColumns.DATE);
+    public String getDate() {
+        String res = getStringOrNull(MessageColumns.DATE);
+        return res;
+    }
+
+    /**
+     * Get the {@code thread_id} value.
+     * Can be {@code null}.
+     */
+    @Nullable
+    @Override
+    public String getThreadId() {
+        String res = getStringOrNull(MessageColumns.THREAD_ID);
+        return res;
+    }
+
+    /**
+     * Get the {@code sms_id} value.
+     * Can be {@code null}.
+     */
+    @Nullable
+    @Override
+    public String getSmsId() {
+        String res = getStringOrNull(MessageColumns.SMS_ID);
         return res;
     }
 

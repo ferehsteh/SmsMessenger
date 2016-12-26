@@ -31,8 +31,6 @@ import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.Nullable;
 
-import java.util.Date;
-
 import lb7.alish.smsmessenger.sample.provider.base.AbstractContentValues;
 
 /**
@@ -49,7 +47,7 @@ public class MessageContentValues extends AbstractContentValues {
      * Update row(s) using the values stored by this object and the given selection.
      *
      * @param contentResolver The content resolver to use.
-     * @param where           The selection to use (can be {@code null}).
+     * @param where The selection to use (can be {@code null}).
      */
     public int update(ContentResolver contentResolver, @Nullable MessageSelection where) {
         return contentResolver.update(uri(), values(), where == null ? null : where.sel(), where == null ? null : where.args());
@@ -59,7 +57,7 @@ public class MessageContentValues extends AbstractContentValues {
      * Update row(s) using the values stored by this object and the given selection.
      *
      * @param context The context to use.
-     * @param where   The selection to use (can be {@code null}).
+     * @param where The selection to use (can be {@code null}).
      */
     public int update(Context context, @Nullable MessageSelection where) {
         return context.getContentResolver().update(uri(), values(), where == null ? null : where.sel(), where == null ? null : where.args());
@@ -91,8 +89,8 @@ public class MessageContentValues extends AbstractContentValues {
         return this;
     }
 
-    public MessageContentValues putDate(@Nullable Date value) {
-        mContentValues.put(MessageColumns.DATE, value == null ? null : value.getTime());
+    public MessageContentValues putDate(@Nullable String value) {
+        mContentValues.put(MessageColumns.DATE, value);
         return this;
     }
 
@@ -101,8 +99,23 @@ public class MessageContentValues extends AbstractContentValues {
         return this;
     }
 
-    public MessageContentValues putDate(@Nullable Long value) {
-        mContentValues.put(MessageColumns.DATE, value);
+    public MessageContentValues putThreadId(@Nullable String value) {
+        mContentValues.put(MessageColumns.THREAD_ID, value);
+        return this;
+    }
+
+    public MessageContentValues putThreadIdNull() {
+        mContentValues.putNull(MessageColumns.THREAD_ID);
+        return this;
+    }
+
+    public MessageContentValues putSmsId(@Nullable String value) {
+        mContentValues.put(MessageColumns.SMS_ID, value);
+        return this;
+    }
+
+    public MessageContentValues putSmsIdNull() {
+        mContentValues.putNull(MessageColumns.SMS_ID);
         return this;
     }
 

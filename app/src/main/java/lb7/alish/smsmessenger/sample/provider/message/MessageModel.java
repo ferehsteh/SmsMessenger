@@ -28,8 +28,6 @@ package lb7.alish.smsmessenger.sample.provider.message;
 
 import android.support.annotation.Nullable;
 
-import java.util.Date;
-
 import lb7.alish.smsmessenger.sample.provider.base.BaseModel;
 
 /**
@@ -62,7 +60,21 @@ public interface MessageModel extends BaseModel {
      * Can be {@code null}.
      */
     @Nullable
-    Date getDate();
+    String getDate();
+
+    /**
+     * Get the {@code thread_id} value.
+     * Can be {@code null}.
+     */
+    @Nullable
+    String getThreadId();
+
+    /**
+     * Get the {@code sms_id} value.
+     * Can be {@code null}.
+     */
+    @Nullable
+    String getSmsId();
 
     /**
      * Get the {@code type} value.

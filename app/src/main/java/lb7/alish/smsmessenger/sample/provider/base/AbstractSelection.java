@@ -417,7 +417,7 @@ public abstract class AbstractSelection<T extends AbstractSelection<?>> {
     /**
      * Returns a {@code CursorLoader} based on this selection.
      *
-     * @param context    The context to use.
+     * @param context The context to use.
      * @param projection The projection to use.
      * @return The CursorLoader.
      */

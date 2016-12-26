@@ -41,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
         PACKAGE_NAME = getApplicationContext().getPackageName();
         if (MyApplication.getInstance().isRunFragmentBase) {
             setContentView(R.layout.activity_main);
+            SmsUtils.copyAllSms();
+            SmsUtils.printDb(MyApplication.getContext());
             ChangeDefaultApp();
             UiUtils.startFragment(this, new MessageListFragment());
         } else {
@@ -147,6 +149,10 @@ public class MainActivity extends AppCompatActivity {
                 builder.show();
             }
         }
+    }
+
+    private void CheckReplicateSMS() {
+
     }
 
 }

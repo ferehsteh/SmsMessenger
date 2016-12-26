@@ -10,6 +10,8 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WRITE_SMS" />
     <uses-permission android:name="android.permission.RECEIVE_MMS" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name=".MyApplication"
@@ -111,6 +113,10 @@
                 <data android:scheme="mmsto" />
             </intent-filter>
         </activity>
+        <provider
+            android:name="lb7.alish.smsmessenger.sample.provider.SampleProvider"
+            android:authorities="lb7.alish.smsmessenger.sample.provider"
+            android:exported="false" />
     </application>
 
 </manifest>

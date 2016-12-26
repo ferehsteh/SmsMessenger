@@ -51,6 +51,7 @@ public class SampleProvider extends BaseContentProvider {
     private static final int URI_TYPE_MESSAGE_ID = 1;
 
 
+
     private static final UriMatcher URI_MATCHER = new UriMatcher(UriMatcher.NO_MATCH);
 
     static {

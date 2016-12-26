@@ -57,6 +57,10 @@ public class MessageColumns implements BaseColumns {
 
     public static final String DATE = "date";
 
+    public static final String THREAD_ID = "thread_id";
+
+    public static final String SMS_ID = "sms_id";
+
     public static final String TYPE = "type";
 
     public static final String STATUS = "status";
@@ -69,6 +73,8 @@ public class MessageColumns implements BaseColumns {
             NUMBER,
             MESSAGE_TEXT,
             DATE,
+            THREAD_ID,
+            SMS_ID,
             TYPE,
             STATUS
     };
@@ -79,6 +85,8 @@ public class MessageColumns implements BaseColumns {
             if (c.equals(NUMBER) || c.contains("." + NUMBER)) return true;
             if (c.equals(MESSAGE_TEXT) || c.contains("." + MESSAGE_TEXT)) return true;
             if (c.equals(DATE) || c.contains("." + DATE)) return true;
+            if (c.equals(THREAD_ID) || c.contains("." + THREAD_ID)) return true;
+            if (c.equals(SMS_ID) || c.contains("." + SMS_ID)) return true;
             if (c.equals(TYPE) || c.contains("." + TYPE)) return true;
             if (c.equals(STATUS) || c.contains("." + STATUS)) return true;
         }

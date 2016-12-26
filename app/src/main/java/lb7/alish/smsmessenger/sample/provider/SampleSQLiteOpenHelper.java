@@ -25,7 +25,6 @@
 package lb7.alish.smsmessenger.sample.provider;
 
 // @formatter:off
-
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.database.DatabaseErrorHandler;
@@ -45,7 +44,9 @@ public class SampleSQLiteOpenHelper extends SQLiteOpenHelper {
             + MessageColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + MessageColumns.NUMBER + " TEXT, "
             + MessageColumns.MESSAGE_TEXT + " TEXT, "
-            + MessageColumns.DATE + " INTEGER, "
+            + MessageColumns.DATE + " TEXT, "
+            + MessageColumns.THREAD_ID + " TEXT, "
+            + MessageColumns.SMS_ID + " TEXT, "
             + MessageColumns.TYPE + " INTEGER, "
             + MessageColumns.STATUS + " TEXT "
             + " );";

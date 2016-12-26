@@ -25,18 +25,17 @@
 package lb7.alish.smsmessenger.sample.provider.message;
 
 // @formatter:off
-
 /**
  * Possible values for the {@code type} column of the {@code message} table.
  */
 public enum DirectionType {
     /**
-     *
+     * 
      */
     INPUT,
 
     /**
-     *
+     * 
      */
     OUTPUT,
 
