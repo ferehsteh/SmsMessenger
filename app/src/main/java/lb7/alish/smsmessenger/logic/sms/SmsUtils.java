@@ -188,7 +188,7 @@ public class SmsUtils {
 
     public static void copyAllSms() {
         long lastDate = 0;
-        Cursor cursor = MyApplication.getContext().getContentResolver().query(Uri.parse("content://sms"), null, "address IS NOT NULL", null, null);
+        Cursor cursor = MyApplication.getContext().getContentResolver().query(Uri.parse("content://sms"), null, "address IS NOT NULL", null, "date");
         if (cursor != null && cursor.moveToFirst()) { // must check the result to prevent exception
             do {
                 String messageText = cursor.getString(cursor.getColumnIndexOrThrow("body"));
