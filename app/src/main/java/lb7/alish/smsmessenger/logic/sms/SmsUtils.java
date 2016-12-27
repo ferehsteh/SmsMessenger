@@ -11,9 +11,13 @@ import android.provider.Telephony;
 import android.telephony.SmsManager;
 import android.widget.Toast;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import lb7.alish.smsmessenger.MyApplication;
+import lb7.alish.smsmessenger.logic.pref.AppPref;
 import lb7.alish.smsmessenger.sample.provider.message.DirectionType;
 import lb7.alish.smsmessenger.sample.provider.message.MessageColumns;
 import lb7.alish.smsmessenger.sample.provider.message.MessageContentValues;
@@ -31,16 +35,16 @@ public class SmsUtils {
     public static ArrayList<MessageInfo> readAllSms() {
         ArrayList<MessageInfo> mMessages = new ArrayList<>();
         MessageSelection where = new MessageSelection();
-        where.groupBy(MessageColumns.THREAD_ID);
+        where.orderByDate(true).groupBy(MessageColumns.THREAD_ID);
         MessageCursor cursor = where.query(MyApplication.getContext());
         if (cursor != null && cursor.moveToFirst()) {
             do {
                 String messageText = cursor.getMessageText();
                 String contact = cursor.getNumber();
-                String date = cursor.getDate();
+                Long date = cursor.getDate();
                 long cid = cursor.getId();
                 DirectionType directionType = cursor.getType();
-                mMessages.add(new MessageInfo(messageText.replaceAll("\\n", " "), contact, date, "", directionType, cid));
+                mMessages.add(new MessageInfo(messageText.replaceAll("\\n", " "), contact, date.toString(), "", directionType, cid));
             } while (cursor.moveToNext());
         }
         cursor.close();
@@ -55,10 +59,10 @@ public class SmsUtils {
         if (cursor != null && cursor.moveToFirst()) {
             do {
                 String messageText = cursor.getMessageText();
-                String date = cursor.getDate();
+                Long date = cursor.getDate();
                 long cid = cursor.getId();
                 DirectionType directionType = cursor.getType();
-                mMessages.add(new MessageInfo(messageText.replaceAll("\\n", " "), contact, date, "", directionType, cid));
+                mMessages.add(new MessageInfo(messageText.replaceAll("\\n", " "), contact, date.toString(), "", directionType, cid));
             } while (cursor.moveToNext());
             cursor.close();
         }
@@ -183,12 +187,15 @@ public class SmsUtils {
     }
 
     public static void copyAllSms() {
+        long lastDate = 0;
         Cursor cursor = MyApplication.getContext().getContentResolver().query(Uri.parse("content://sms"), null, "address IS NOT NULL", null, null);
         if (cursor != null && cursor.moveToFirst()) { // must check the result to prevent exception
             do {
                 String messageText = cursor.getString(cursor.getColumnIndexOrThrow("body"));
                 String contact = cursor.getString(cursor.getColumnIndexOrThrow("address"));
-                String date = cursor.getString(cursor.getColumnIndexOrThrow("date"));
+                long date = cursor.getLong(cursor.getColumnIndexOrThrow("date"));
+                lastDate = date;
+                System.out.println("date : " + date);
                 String status = cursor.getString(cursor.getColumnIndexOrThrow("status"));
                 String thread_id = cursor.getString(cursor.getColumnIndexOrThrow("thread_id"));
                 String cid = cursor.getString(cursor.getColumnIndex("_id"));
@@ -206,6 +213,55 @@ public class SmsUtils {
             } while (cursor.moveToNext());
             cursor.close();
         }
+
     }
 
+    public static Date convertStringToDate(String dateString) {
+        Date date = null;
+        DateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+        try {
+            date = df.parse(dateString);
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        return date;
+    }
+
+    public static void checkForCopySMS() {
+        long lastDate = 0;
+        MessageSelection where = new MessageSelection();
+        MessageCursor cursor = where.query(MyApplication.getContext());
+        if (cursor != null && cursor.moveToFirst()) {
+            long updatedTime = AppPref.getInstance().getUpdatedTim();
+            Cursor mCursor = MyApplication.getContext().getContentResolver().query(Uri.parse("content://sms"), null, "address IS NOT NULL and date > '" + updatedTime + "'", null, null);
+            if (mCursor != null && mCursor.moveToFirst()) {
+                do {
+                    String messageText = mCursor.getString(mCursor.getColumnIndexOrThrow("body"));
+                    String contact = mCursor.getString(mCursor.getColumnIndexOrThrow("address"));
+                    long date = mCursor.getLong(mCursor.getColumnIndexOrThrow("date"));
+                    lastDate = date;
+                    String status = mCursor.getString(mCursor.getColumnIndexOrThrow("status"));
+                    String thread_id = mCursor.getString(mCursor.getColumnIndexOrThrow("thread_id"));
+                    String cid = mCursor.getString(mCursor.getColumnIndex("_id"));
+                    DirectionType directionType;
+                    if (mCursor.getString(mCursor.getColumnIndexOrThrow("type"))
+                            .contains(Telephony.Sms.MESSAGE_TYPE_INBOX + "")) {
+                        directionType = DirectionType.INPUT;
+                    } else {
+                        directionType = DirectionType.OUTPUT;
+                    }
+                    MessageContentValues values = new MessageContentValues();
+                    values.putMessageText(messageText.replaceAll("\\n", " ")).putNumber(contact).putStatus(status)
+                            .putType(directionType).putDate(date).putSmsId(cid).putThreadId(thread_id);
+                    values.insert(MyApplication.getContext());
+                } while (mCursor.moveToNext());
+                mCursor.close();
+            }
+            System.currentTimeMillis();
+            AppPref.getInstance().setUpdatedTime(System.currentTimeMillis());
+        } else {
+            copyAllSms();
+            AppPref.getInstance().setUpdatedTime(System.currentTimeMillis());
+        }
+    }
 }

@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import lb7.alish.smsmessenger.MyApplication;
 import lb7.alish.smsmessenger.R;
 import lb7.alish.smsmessenger.logic.MarshmallowPermission;
+import lb7.alish.smsmessenger.logic.pref.AppPref;
 import lb7.alish.smsmessenger.logic.sms.SmsUtils;
 import lb7.alish.smsmessenger.view.contacts.ContactListActivity;
 import lb7.alish.smsmessenger.view.utils.UiUtils;
@@ -39,16 +40,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         PACKAGE_NAME = getApplicationContext().getPackageName();
+        if (AppPref.getInstance().getUpdatedTim() == 0L) {
+            AppPref.getInstance().setUpdatedTime(System.currentTimeMillis());
+        }
         if (MyApplication.getInstance().isRunFragmentBase) {
             setContentView(R.layout.activity_main);
-            SmsUtils.copyAllSms();
-            SmsUtils.printDb(MyApplication.getContext());
+            SmsUtils.checkForCopySMS();
+//            SmsUtils.copyAllSms();
             ChangeDefaultApp();
             UiUtils.startFragment(this, new MessageListFragment());
         } else {
-
-
-//
             setContentView(R.layout.main_fragment);
             recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
             recyclerView.setLayoutManager(new GridLayoutManager(this, 1));
